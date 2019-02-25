@@ -27,7 +27,7 @@
 static string* g_emptyString = NULL;
 
 static char
-createSpace() {
+createSpace(void) {
     return ' ';
 }
 
