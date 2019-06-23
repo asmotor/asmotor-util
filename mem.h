@@ -21,6 +21,10 @@
 
 #include <stdlib.h>
 
+#if !defined(NDEBUG) && !defined(_DEBUG)
+#   define _DEBUG
+#endif
+
 #if defined(_DEBUG)
 extern void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber);
