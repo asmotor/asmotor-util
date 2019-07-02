@@ -16,6 +16,8 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdarg.h>
+
 #include "mem.h"
 #include "strbuf.h"
 
@@ -56,4 +58,28 @@ strbuf_AppendChars(string_buffer* buffer, const char* data, size_t length) {
 
     memcpy(buffer->data + buffer->size, data, length);
     buffer->size += length;
+}
+
+void
+strbuf_AppendArgs(string_buffer* buffer, const char* format, va_list args) {
+    size_t sz = 80;
+    size_t nsz;
+    char* mem = mem_Alloc(80);
+    while (true) {
+        nsz = vsnprintf(mem, sz, format, args);
+        if (nsz >= 0 && nsz < sz)
+            break;
+        mem = mem_Realloc(mem, nsz + 1);
+        sz = nsz + 1;
+    }
+    strbuf_AppendChars(buffer, mem, nsz);
+    mem_Free(mem);
+}
+
+extern void
+strbuf_AppendFormat(string_buffer* buffer, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    strbuf_AppendArgs(buffer, format, args);
+    va_end(args);
 }

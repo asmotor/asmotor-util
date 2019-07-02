@@ -40,6 +40,12 @@ extern string*
 strbuf_String(string_buffer* buffer);
 
 extern void
+strbuf_AppendArgs(string_buffer* buffer, const char* format, va_list args);
+
+extern void
+strbuf_AppendFormat(string_buffer* buffer, const char* format, ...);
+ 
+extern void
 strbuf_AppendChars(string_buffer* buffer, const char* data, size_t length);
 
 INLINE void
