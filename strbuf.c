@@ -62,8 +62,8 @@ strbuf_AppendChars(string_buffer* buffer, const char* data, size_t length) {
 
 void
 strbuf_AppendArgs(string_buffer* buffer, const char* format, va_list args) {
-    size_t sz = 80;
-    size_t nsz;
+    int sz = 80;
+    int nsz;
     char* mem = mem_Alloc(80);
     while (true) {
         nsz = vsnprintf(mem, sz, format, args);
