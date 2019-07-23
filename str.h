@@ -87,6 +87,12 @@ extern string*
 str_CreateSpaces(uint32_t count);
 
 extern string*
+str_CreateArgs(const char* format, va_list args);
+
+extern string*
+str_CreateFormat(const char* format, ...);
+
+extern string*
 str_Align(string* str, int32_t alignment);
 
 INLINE bool

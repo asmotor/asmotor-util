@@ -18,11 +18,13 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdarg.h>
 #include <ctype.h>
 
 #include "asmotor.h"
 #include "mem.h"
 #include "str.h"
+#include "strbuf.h"
 
 static string* g_emptyString = NULL;
 
@@ -71,6 +73,27 @@ str_CreateStream(char (*nextChar)(void), size_t length) {
     }
     str->data[length] = 0;
     return str;
+}
+
+string*
+str_CreateArgs(const char* format, va_list args) {
+    string_buffer* buf = strbuf_Create();
+    strbuf_AppendArgs(buf, format, args);
+
+    string* result = strbuf_String(buf);
+
+    strbuf_Free(buf);
+    return result;
+}
+
+string*
+str_CreateFormat(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    string* result = str_CreateArgs(format, args);
+    va_end(args);
+
+    return result;
 }
 
 string*
