@@ -38,6 +38,10 @@ typedef struct {
 #	pragma warning(pop)
 #endif
 
+#if defined(_MSC_VER)
+#   define strncpy(dest, src, len) strncpy_s(dest, len, src, len)
+#endif
+
 extern string*
 str_CreateLength(const char* data, size_t length);
 
@@ -142,6 +146,25 @@ str_Move(string** dest, string** src) {
     *src = NULL;
 }
 
+INLINE bool
+hexToInt(const char* text, uint32_t* result) {
+#if defined(_MSC_VER)
+    int count = sscanf_s(text, "%x", result);
+#else
+    int count = sscanf(text, "%x", result);
+#endif
+    return count == 1;
+}
+
+INLINE bool
+decimalToInt(const char* text, uint32_t* result) {
+#if defined(_MSC_VER)
+    int count = sscanf_s(text, "%d", result);
+#else
+    int count = sscanf(text, "%d", result);
+#endif
+    return count == 1;
+}
 
 #define STR_ASSIGN(p, str) str_Assign(&(p), (str))
 #define STR_MOVE(p, str)   str_Move(&(p), &(str))

@@ -24,6 +24,12 @@
 #include "asmotor.h"
 #include "types.h"
 
+/* Open file securely */
+extern FILE*
+_util_fopen(const char* name, const char* mode);
+
+#define fopen _util_fopen
+
 /* Determine whether a file exists */
 extern bool
 fexists(const char* filename);

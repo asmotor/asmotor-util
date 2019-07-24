@@ -260,7 +260,7 @@ str_CreateSpaces(uint32_t count) {
 
 string*
 str_Align(string* str, int32_t alignment) {
-    int spaceCount = abs(alignment) - str_Length(str);
+    int spaceCount = abs(alignment) - (int) str_Length(str);
     if (spaceCount > 0) {
         string* spacesString = str_CreateSpaces(spaceCount);
         string* aligned;
