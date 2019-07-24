@@ -61,7 +61,7 @@ checkMemPointer(SMemoryChunk* chunk, size_t size) {
 #if defined(_DEBUG)
 void*
 mem_AllocImpl(size_t size, const char *filename, int lineNumber) {
-    char* mem = CheckMemPointer(malloc(size + HEADERSIZE), size, filename, lineNumber);
+    uint8_t* mem = CheckMemPointer(malloc(size + HEADERSIZE), size, filename, lineNumber);
     for (size_t i = 0; i < size; ++i) {
         switch (i & 3) {
             case 0: mem[i] = 0xDE; break;
