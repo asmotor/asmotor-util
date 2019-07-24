@@ -18,18 +18,6 @@
 
 #include "file.h"
 
-FILE*
-_util_fopen(const char* name, const char* mode) {
-#if defined(_MSC_VER)
-    FILE* f;
-    if (fopen_s(&f, name, mode) == 0)
-        return f;
-    return NULL;
-#else
-    return fopen(&f, name, mode);
-#endif
-}
-
 size_t
 fsize(FILE* fileHandle) {
 	fflush(fileHandle);

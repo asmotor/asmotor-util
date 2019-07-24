@@ -157,7 +157,7 @@ hexToInt(const char* text, uint32_t* result) {
 }
 
 INLINE bool
-decimalToInt(const char* text, uint32_t* result) {
+decimalToInt(const char* text, int32_t* result) {
 #if defined(_MSC_VER)
     int count = sscanf_s(text, "%d", result);
 #else

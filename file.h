@@ -25,8 +25,17 @@
 #include "types.h"
 
 /* Open file securely */
-extern FILE*
-_util_fopen(const char* name, const char* mode);
+INLINE FILE*
+_util_fopen(const char* name, const char* mode) {
+#if defined(_MSC_VER)
+    FILE* f;
+    if (fopen_s(&f, name, mode) == 0)
+        return f;
+    return NULL;
+#else
+    return fopen(name, mode);
+#endif
+}
 
 #define fopen _util_fopen
 
