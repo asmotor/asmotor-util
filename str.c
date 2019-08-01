@@ -155,6 +155,9 @@ str_Find(const string* haystack, const string* needle) {
 
 bool
 str_Equal(const string* str1, const string* str2) {
+    if (str1 == str2)
+        return true;
+        
     size_t length1 = str_Length(str1);
 
     if (length1 != str_Length(str2))
