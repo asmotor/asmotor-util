@@ -17,6 +17,7 @@
 */
 
 #include "file.h"
+#include "strbuf.h"
 
 size_t
 fsize(FILE* fileHandle) {
@@ -90,6 +91,23 @@ fgetsz(char* destination, size_t maxLength, FILE* fileHandle) {
     }
     return r;
 }
+
+string*
+fgetstr(FILE* fileHandle) {
+    string_buffer* buf = strbuf_Create();
+
+    while (true) {
+        int ch = fgetc(fileHandle);
+        if (ch == EOF || ch == 0)
+            break;
+        strbuf_AppendChar(buf, ch);
+    }
+
+    string* result = strbuf_String(buf);
+    strbuf_Free(buf);
+    return result;
+}
+
 
 void
 fputsz(const char* str, FILE* fileHandle) {

@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 #include "asmotor.h"
+#include "str.h"
 #include "types.h"
 
 /* Open file securely */
@@ -74,6 +75,10 @@ fputlw(uint16_t value, FILE* fileHandle);
 /* Retrieve a zero terminated string from a file */
 extern size_t
 fgetsz(char* destination, size_t maxLength, FILE* fileHandle);
+
+/* Retrieve a zero terminated string from a file */
+extern string*
+fgetstr(FILE* fileHandle);
 
 /* Write zero terminated string to a file */
 extern void
