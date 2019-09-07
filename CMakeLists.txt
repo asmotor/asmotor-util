@@ -5,10 +5,16 @@ add_library(util
     fmath.c
     fmath.h
     lists.h
+    map.c
+    map.h
     mem.c
     mem.h
+    set.c
+    set.h
     str.c
     str.h
+    strcoll.c
+    strcoll.h
     strbuf.c
     strbuf.h
     strings.c

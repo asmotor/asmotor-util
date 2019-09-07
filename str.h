@@ -146,6 +146,14 @@ str_Move(string** dest, string** src) {
     *src = NULL;
 }
 
+extern uint32_t
+str_JenkinsHashLength(const void* str, size_t length);
+
+INLINE uint32_t
+str_JenkinsHash(const string* str) {
+    return str_JenkinsHashLength(str_String(str), str_Length(str));
+}
+
 INLINE bool
 hexToInt(const char* text, uint32_t* result) {
 #if defined(_MSC_VER)
