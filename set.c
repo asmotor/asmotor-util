@@ -18,6 +18,7 @@
 
 #define IN_SET_C_
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -34,9 +35,9 @@ struct ListEntry {
 
 typedef struct ListEntry SListEntry;
 
-typedef bool (*equals_t)(intptr_t, intptr_t);
-typedef uint32_t (*hash_t)(intptr_t);
-typedef void (*free_t)(intptr_t);
+typedef bool (*equals_t)(intptr_t userData, intptr_t element1, intptr_t element2);
+typedef uint32_t (*hash_t)(intptr_t userData, intptr_t element);
+typedef void (*free_t)(intptr_t userData, intptr_t element);
 
 typedef struct {
     equals_t equals;
@@ -50,7 +51,7 @@ typedef struct {
 
 extern set_t* 
 set_Create(equals_t equals, hash_t hash, free_t free) {
-    set_t* set = mem_Alloc(sizeof(set_t));
+    set_t* set = (set_t*) mem_Alloc(sizeof(set_t));
     set->equals = equals;
     set->hash = hash;
     set->free = free;
@@ -61,33 +62,38 @@ set_Create(equals_t equals, hash_t hash, free_t free) {
         set->lists[i].elements = NULL;
     }
 
-    return NULL;
+    return set;
 }
 
-extern bool
-_set_PrivateExists(set_t* set, SListEntry* list, intptr_t element) {
+static bool
+privateExists(set_t* set, SListEntry* list, intptr_t element) {
+    assert(set != NULL && list != NULL);
+
     if (list->totalElements > 0 && list->elements != NULL) {
         for (uint32_t i = 0; i < list->totalElements; ++i) {
-            if (set->equals(list->elements[i], element))
+            if (set->equals(set->userData, list->elements[i], element))
                 return true;
         }
     }
     return false;
 }
 
-extern SListEntry*
-_set_PrivateListForElement(set_t* set, intptr_t element) {
-    return &set->lists[set->hash(element) % SET_HASH_SIZE];
+static SListEntry*
+privateListForElement(set_t* set, intptr_t element) {
+    assert(set != NULL);
+    return &set->lists[set->hash(set->userData, element) % SET_HASH_SIZE];
 }
 
 extern bool
 set_Exists(set_t* set, intptr_t element) {
-    SListEntry* list = _set_PrivateListForElement(set, element);
-    return _set_PrivateExists(set, list, element);
+    assert(set != NULL);
+    SListEntry* list = privateListForElement(set, element);
+    return privateExists(set, list, element);
 }
 
 extern bool
 set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* value) {
+    assert(set != NULL && predicate != NULL && value != NULL);
     for (uint32_t i = 0; i < SET_HASH_SIZE; ++i) {
         SListEntry* list = &set->lists[i];
         for (uint32_t j = 0; j < list->totalElements; ++j) {
@@ -102,9 +108,11 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
 
 extern void
 set_Insert(set_t* set, intptr_t element) {
-    SListEntry* list = _set_PrivateListForElement(set, element);
+    assert(set != NULL);
 
-    if (!_set_PrivateExists(set, list, element)) {
+    SListEntry* list = privateListForElement(set, element);
+
+    if (!privateExists(set, list, element)) {
         if (list->elements == NULL || list->allocatedElements == list->totalElements) {
             list->allocatedElements = list->allocatedElements * 2 + 4;
             list->elements = mem_Realloc(list->elements, list->allocatedElements * sizeof(void *));
@@ -115,12 +123,14 @@ set_Insert(set_t* set, intptr_t element) {
 
 extern void
 set_Remove(set_t* set, intptr_t element) {
-    SListEntry* list = _set_PrivateListForElement(set, element);
+    assert(set != NULL);
+
+    SListEntry* list = privateListForElement(set, element);
 
     if (list->totalElements > 0 && list->elements != NULL) {
         for (uint32_t i = 0; i < list->totalElements; ++i) {
-            if (set->equals(list->elements[i], element)) {
-                set->free(list->elements[i]);
+            if (set->equals(set->userData, list->elements[i], element)) {
+                set->free(set->userData, list->elements[i]);
                 list->elements[i] = list->elements[--(list->totalElements)];
                 return;
             }
@@ -130,6 +140,8 @@ set_Remove(set_t* set, intptr_t element) {
 
 extern void
 set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data), intptr_t data) {
+    assert(set != NULL && forEach != NULL);
+
     for (uint32_t i = 0; i < SET_HASH_SIZE; ++i) {
         SListEntry* list = &set->lists[i];
         if (list->elements != NULL) {
@@ -147,6 +159,8 @@ increment(intptr_t element, intptr_t data) {
 
 extern size_t
 set_Count(set_t* set) {
+    assert(set != NULL);
+
     size_t count = 0;
     set_ForEachElement(set, increment, (intptr_t) &count);
 
@@ -155,11 +169,13 @@ set_Count(set_t* set) {
 
 extern void
 set_Free(set_t* set) {
+    assert(set != NULL);
+
     for (uint32_t i = 0; i < SET_HASH_SIZE; ++i) {
         SListEntry* list = &set->lists[i];
         if (list->elements != NULL) {
             for (uint32_t j = 0; j < list->totalElements; ++j) {
-                set->free(list->elements[j]);
+                set->free(set->userData, list->elements[j]);
                 mem_Free(list->elements);
             }
         }
@@ -169,6 +185,8 @@ set_Free(set_t* set) {
 
 extern intptr_t*
 set_ToArray(set_t* set, copy_t copy, size_t* totalElements) {
+    assert(set != NULL && copy != NULL && totalElements != NULL);
+
     *totalElements = set_Count(set);
     intptr_t* array = mem_Alloc(*totalElements * sizeof(intptr_t));
 
@@ -187,11 +205,13 @@ set_ToArray(set_t* set, copy_t copy, size_t* totalElements) {
 
 extern void
 set_SetUserData(set_t* set, intptr_t data) {
+    assert(set != NULL);
     set->userData = data;
 }
 
 extern intptr_t
 set_GetUserData(set_t* set) {
+    assert(set != NULL);
     return set->userData;
 }
 
