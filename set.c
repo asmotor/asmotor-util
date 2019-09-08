@@ -103,7 +103,7 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
             }
         }
     }
-    return true;
+    return false;
 }
 
 extern void

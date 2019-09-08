@@ -87,6 +87,10 @@ extern map_t*
 map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree) {
     map_t* map = (map_t*) mem_Alloc(sizeof(map_t));
     map->set = set_Create(keyvalueEquals, keyvalueHash, keyvalueFree);
+    map->keyEquals = keyEquals;
+    map->keyHash = keyHash;
+    map->keyFree = keyFree;
+    map->valueFree = valueFree;
     set_SetUserData(map->set, (intptr_t) map);
 
     return map;
