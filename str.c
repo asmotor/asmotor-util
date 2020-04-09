@@ -157,6 +157,9 @@ bool
 str_Equal(const string* str1, const string* str2) {
     if (str1 == str2)
         return true;
+
+    if (str1 == NULL || str2 == NULL)
+        return false;
         
     size_t length1 = str_Length(str1);
 
