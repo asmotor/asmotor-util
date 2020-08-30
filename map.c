@@ -128,7 +128,7 @@ map_ForEachKeyValue(map_t* map, map_foreach_t forEach, intptr_t data) {
     set_ForEachElement(map->set, forEachSetElement, (intptr_t) &mapData);
 }
 
-extern uint32_t
+extern size_t
 map_Count(map_t* map) {
     return set_Count(map->set);
 }
