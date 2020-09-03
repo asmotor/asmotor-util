@@ -57,6 +57,12 @@ extern int
 _stricmp(const char* string1, const char* string2);
 #endif
 
+#if defined(__GNUC__) && defined(__AMIGA__)
+#define ftello ftell
+#define fseeko fseek
+#endif
+
+
 #if defined(_MSC_VER) || defined(__VBCC__) || defined(__GNUC__)
 # define internalerror(s) fprintf( stderr, "Internal error at "__FILE__"(%d): %s\n", __LINE__, s),exit(EXIT_FAILURE)
 #else
