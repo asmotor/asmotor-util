@@ -20,5 +20,7 @@ add_library(util
     strbuf.c
     strbuf.h
     strings.c
-    types.h)
+    types.h
+    vec.c
+    vec.h)
     
