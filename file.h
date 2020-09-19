@@ -84,6 +84,13 @@ fgetstr(FILE* fileHandle);
 extern void
 fputsz(const char* str, FILE* fileHandle);
 
+extern string*
+fcanonicalizePath(string* fileName);
+
+/* Replace file name component from path */
+extern string*
+freplaceFileComponent(string* fullPath, string* fileName);
+
 #if defined(_MSC_VER)
 typedef __int64 off_t;
 

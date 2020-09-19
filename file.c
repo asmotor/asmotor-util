@@ -19,6 +19,15 @@
 #include "file.h"
 #include "strbuf.h"
 
+#if defined(WIN32)
+#	define PATH_SEPARATOR '\\'
+#	define PATH_REPLACE '/'
+#else
+#	define PATH_SEPARATOR '/'
+#	define PATH_REPLACE '\\'
+#endif
+
+
 size_t
 fsize(FILE* fileHandle) {
 	fflush(fileHandle);
@@ -126,5 +135,32 @@ fexists(const char* filename) {
     }
 
     return false;
+}
+
+string*
+fcanonicalizePath(string* fileName) {
+    return str_Replace(fileName, PATH_REPLACE, PATH_SEPARATOR);
+}
+
+string*
+freplaceFileComponent(string* fullPath, string* fileName) {
+    if (fullPath == NULL)
+        return fileName;
+
+    const char* lastSlash = str_String(fullPath) + str_Length(fullPath) - 1;
+
+    while (lastSlash > str_String(fullPath) && *lastSlash != '/' && *lastSlash != '\\')
+        --lastSlash;
+
+    if (lastSlash == str_String(fullPath))
+        return str_Copy(fileName);
+
+    string* basePath = str_Slice(fullPath, 0, lastSlash + 1 - str_String(fullPath));
+    string* newFullPath = str_Concat(basePath, fileName);
+    str_Free(basePath);
+
+    string* fixedPath = fcanonicalizePath(newFullPath);
+    str_Free(newFullPath);
+    return fixedPath;
 }
 
