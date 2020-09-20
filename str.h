@@ -30,7 +30,7 @@
 
 typedef struct {
     uint32_t refCount;
-    size_t length;
+    ssize_t length;
     char data[];
 } string;
 
@@ -43,10 +43,10 @@ typedef struct {
 #endif
 
 extern string*
-str_CreateLength(const char* data, size_t length);
+str_CreateLength(const char* data, ssize_t length);
 
 extern string*
-str_CreateStream(char (*nextChar)(void), size_t length);
+str_CreateStream(char (*nextChar)(void), ssize_t length);
 
 extern string*
 str_Empty(void);
@@ -58,7 +58,7 @@ extern string*
 str_Concat(const string* str1, const string* str2);
 
 extern string*
-str_Slice(const string* str1, ssize_t index, size_t length);
+str_Slice(const string* str1, ssize_t index, ssize_t length);
 
 extern uint32_t
 str_Find(const string* haystack, const string* needle);
@@ -116,7 +116,7 @@ str_Copy(const string* str) {
     return (string*) str;
 }
 
-INLINE size_t
+INLINE ssize_t
 str_Length(const string* str) {
     return str->length;
 }
@@ -147,7 +147,7 @@ str_Move(string** dest, string** src) {
 }
 
 extern uint32_t
-str_JenkinsHashLength(const void* str, size_t length);
+str_JenkinsHashLength(const void* str, ssize_t length);
 
 INLINE uint32_t
 str_JenkinsHash(const string* str) {

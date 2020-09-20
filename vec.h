@@ -19,7 +19,6 @@
 #if !defined(UTIL_VEC_H_INCLUDED_)
 #define UTIL_VEC_H_INCLUDED_
 
-#include <stdbool.h>
 #include <stdint.h>
 
 #include "mem.h"
@@ -41,5 +40,11 @@ vec_Free(vec_t* vec);
 
 extern size_t
 vec_Count(vec_t* vec);
+
+extern void
+vec_RemoveAt(vec_t* vec, ssize_t index);
+
+extern intptr_t
+vec_ElementAt(vec_t* vec, ssize_t index);
 
 #endif

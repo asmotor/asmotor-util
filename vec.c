@@ -20,7 +20,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdint.h>
 
 #include "set.h"
@@ -75,4 +74,23 @@ vec_Free(vec_t* vec) {
     }
     mem_Free(vec->elements);
     mem_Free(vec);
+}
+
+
+extern void
+vec_RemoveAt(vec_t* vec, ssize_t index) {
+	assert(index >= 0 && index < vec->totalElements);
+
+	vec->free(vec->userData, vec->elements[index]);
+	vec->totalElements -= 1;
+	if (index < vec->totalElements) {
+		memcpy(&vec[index], &vec[index + 1], vec->totalElements - index);
+	}
+}
+
+
+extern intptr_t
+vec_ElementAt(vec_t* vec, ssize_t index) {
+	assert(index >= 0 && index < vec->totalElements);
+	return vec->elements[index];
 }

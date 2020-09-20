@@ -44,7 +44,7 @@ map_HasKey(map_t* map, intptr_t key);
 extern void
 map_ForEachKeyValue(map_t* map, map_foreach_t forEach, intptr_t data);
 
-extern size_t
+extern ssize_t
 map_Count(map_t* map);
 
 

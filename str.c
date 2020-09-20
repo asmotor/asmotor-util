@@ -50,7 +50,7 @@ str_Set(string* str, ssize_t index, char ch) {
 }
 
 static string*
-str_Alloc(size_t length) {
+str_Alloc(ssize_t length) {
     string* pString = mem_Alloc(sizeof(string) + length + 1);
     pString->length = length;
     pString->refCount = 1;
@@ -58,7 +58,7 @@ str_Alloc(size_t length) {
 }
 
 string*
-str_CreateLength(const char* data, size_t length) {
+str_CreateLength(const char* data, ssize_t length) {
     string* str = str_Alloc(length);
     memcpy(str->data, data, length);
     str->data[length] = 0;
@@ -66,9 +66,9 @@ str_CreateLength(const char* data, size_t length) {
 }
 
 string*
-str_CreateStream(char (*nextChar)(void), size_t length) {
+str_CreateStream(char (*nextChar)(void), ssize_t length) {
     string* str = str_Alloc(length);
-    for (size_t i = 0; i < length; ++i) {
+    for (ssize_t i = 0; i < length; ++i) {
         str_Set(str, i, nextChar());
     }
     str->data[length] = 0;
@@ -117,10 +117,10 @@ str_Free(string* str) {
 
 string*
 str_Concat(const string* str1, const string* str2) {
-    size_t length1 = str_Length(str1);
-    size_t length2 = str_Length(str2);
+    ssize_t length1 = str_Length(str1);
+    ssize_t length2 = str_Length(str2);
 
-    size_t newLength = length1 + length2;
+    ssize_t newLength = length1 + length2;
     string* newString = str_Alloc(newLength);
 
     memcpy(newString->data, str_String(str1), length1);
@@ -130,7 +130,7 @@ str_Concat(const string* str1, const string* str2) {
 }
 
 string*
-str_Slice(const string* str1, ssize_t index, size_t length) {
+str_Slice(const string* str1, ssize_t index, ssize_t length) {
     if (index < 0)
         index = str_Length(str1) + index;
 
@@ -161,12 +161,12 @@ str_Equal(const string* str1, const string* str2) {
     if (str1 == NULL || str2 == NULL)
         return false;
         
-    size_t length1 = str_Length(str1);
+    ssize_t length1 = str_Length(str1);
 
     if (length1 != str_Length(str2))
         return false;
 
-    for (size_t i = 0; i < length1; ++i) {
+    for (ssize_t i = 0; i < length1; ++i) {
         if (str_CharAt(str1, i) != str_CharAt(str2, i))
             return false;
     }
@@ -192,11 +192,11 @@ str_Compare(const string* str1, const string* str2) {
 
 bool
 str_EqualConst(const string* str1, const char* str2) {
-    size_t length1 = str_Length(str1);
+    ssize_t length1 = str_Length(str1);
     char ch2;
 
     ch2 = *str2++;
-    for (size_t i = 0; i < length1; ++i) {
+    for (ssize_t i = 0; i < length1; ++i) {
         if (ch2 == 0 || str_CharAt(str1, i) != ch2)
             return false;
 
@@ -208,10 +208,10 @@ str_EqualConst(const string* str1, const char* str2) {
 
 string*
 str_Replace(const string* str, char search, char replace) {
-    size_t length = str_Length(str);
+    ssize_t length = str_Length(str);
     string* result = str_CreateLength(str->data, length);
 
-    for (size_t i = 0; i < length; ++i) {
+    for (ssize_t i = 0; i < length; ++i) {
         if (str_CharAt(result, i) == search)
             str_Set(result, i, replace);
     }
@@ -221,10 +221,10 @@ str_Replace(const string* str, char search, char replace) {
 
 string*
 str_ToLower(const string* str) {
-    size_t length = str_Length(str);
+    ssize_t length = str_Length(str);
     string* pLowerString = str_Alloc(length);
 
-    for (size_t i = 0; i < length; ++i) {
+    for (ssize_t i = 0; i < length; ++i) {
         str_Set(pLowerString, i, (char) tolower(str_CharAt(str, i)));
     }
 
@@ -235,8 +235,8 @@ void
 str_TransformReplace(string** str, char (*transform)(char)) {
     copyOnWrite(str);
 
-    size_t len = str_Length(*str);
-    for (size_t i = 0; i < len; ++i) {
+    ssize_t len = str_Length(*str);
+    for (ssize_t i = 0; i < len; ++i) {
         str_Set(*str, i, transform(str_CharAt(*str, i)));
     }
 }
@@ -283,10 +283,10 @@ str_Align(string* str, int32_t alignment) {
 }
 
 extern uint32_t
-str_JenkinsHashLength(const void* str, size_t length) {
+str_JenkinsHashLength(const void* str, ssize_t length) {
     uint8_t* key = (uint8_t *) str;
     uint32_t hash = 0;
-    for (size_t i = 0; i < length; ++i) {
+    for (ssize_t i = 0; i < length; ++i) {
         hash += key[i++];
         hash += hash << 10;
         hash ^= hash >> 6;

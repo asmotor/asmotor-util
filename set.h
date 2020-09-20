@@ -55,14 +55,14 @@ set_Remove(set_t* set, intptr_t element);
 extern void
 set_Free(set_t* set);
 
-extern size_t
+extern ssize_t
 set_Count(set_t* set);
 
 extern void
 set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data), intptr_t data);
 
 extern intptr_t*
-set_ToArray(set_t* set, copy_t copy, size_t* totalElements);
+set_ToArray(set_t* set, copy_t copy, ssize_t* totalElements);
 
 extern void
 set_SetUserData(set_t* set, intptr_t data);

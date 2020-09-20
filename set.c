@@ -157,7 +157,7 @@ increment(intptr_t element, intptr_t data) {
     *(size_t*)data += 1;
 }
 
-extern size_t
+extern ssize_t
 set_Count(set_t* set) {
     assert(set != NULL);
 
@@ -184,7 +184,7 @@ set_Free(set_t* set) {
 }
 
 extern intptr_t*
-set_ToArray(set_t* set, copy_t copy, size_t* totalElements) {
+set_ToArray(set_t* set, copy_t copy, ssize_t* totalElements) {
     assert(set != NULL && copy != NULL && totalElements != NULL);
 
     *totalElements = set_Count(set);

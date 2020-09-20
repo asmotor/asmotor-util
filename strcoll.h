@@ -20,6 +20,7 @@
 #define UTIL_STRCOLL_H_INCLUDED_
 
 #include "set.h"
+#include "vec.h"
 #include "map.h"
 
 // String set functions
@@ -41,6 +42,26 @@ INLINE void
 strset_Remove(set_t* set, const string* element) {
     set_Remove(set, (intptr_t) element);
 }
+
+
+// String vector functions
+
+extern vec_t* 
+strvec_Create(void);
+
+INLINE void
+strvec_PushBack(vec_t* vec, string* element) {
+	vec_PushBack(vec, (intptr_t) str_Copy(element));
+}
+
+INLINE string*
+strvec_StringAt(vec_t* vec, size_t index) {
+	return str_Copy((string *) vec_ElementAt(vec, index));
+}
+
+#define strvec_Free vec_Free
+#define strvec_Count vec_Count
+#define strvec_RemoveAt vec_RemoveAt
 
 
 // String map functions
