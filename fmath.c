@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#include "asmotor.h"
+#include "util.h"
 #include "types.h"
 
 #ifndef PI

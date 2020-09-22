@@ -21,7 +21,7 @@
 
 #include <string.h>
 
-#include "asmotor.h"
+#include "util.h"
 
 #if defined(_MSC_VER)
 #	pragma warning(push)

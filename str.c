@@ -21,7 +21,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-#include "asmotor.h"
+#include "util.h"
 #include "mem.h"
 #include "str.h"
 #include "strbuf.h"

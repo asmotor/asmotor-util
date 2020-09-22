@@ -18,11 +18,10 @@
 
 #if defined(__VBCC__) || defined(__GNUC__)
 
-#include "asmotor.h"
-
 #include <ctype.h>
 #include <string.h>
 
+#include "util.h"
 #include "mem.h"
 
 char*

@@ -21,7 +21,7 @@
 
 #include <string.h>
 
-#include "asmotor.h"
+#include "util.h"
 #include "str.h"
 
 typedef struct {
