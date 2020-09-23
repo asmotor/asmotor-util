@@ -66,10 +66,14 @@ strvec_CreateLength(size_t size) {
 
 extern vec_t*
 strvec_Clone(vec_t* collection) {
-	vec_t* dest = strvec_CreateLength(strvec_Count(collection));
-	for (size_t i = 0; i < strvec_Count(collection); ++i) {
-		strvec_PushBack(dest, strvec_StringAt(collection, i));
-	}
+	if (collection != NULL) {
+		vec_t* dest = strvec_CreateLength(strvec_Count(collection));
+		for (size_t i = 0; i < strvec_Count(collection); ++i) {
+			strvec_PushBack(dest, strvec_StringAt(collection, i));
+		}
 
-	return dest;
+		return dest;
+	} else {
+		return NULL;
+	}
 }

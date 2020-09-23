@@ -157,6 +157,9 @@ str_JenkinsHash(const string* str) {
 extern string*
 str_ReadFile(FILE* fileHandle, size_t count);
 
+extern string*
+str_CanonicalizeLineEndings(string* srcString);
+
 INLINE bool
 hexToInt(const char* text, uint32_t* result) {
 #if defined(_MSC_VER)
