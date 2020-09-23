@@ -154,6 +154,9 @@ str_JenkinsHash(const string* str) {
     return str_JenkinsHashLength(str_String(str), str_Length(str));
 }
 
+extern string*
+str_ReadFile(FILE* fileHandle, size_t count);
+
 INLINE bool
 hexToInt(const char* text, uint32_t* result) {
 #if defined(_MSC_VER)

@@ -297,3 +297,34 @@ str_JenkinsHashLength(const void* str, ssize_t length) {
 
     return hash;
 }
+
+extern string*
+str_ReadFile(FILE* fileHandle, size_t count) {
+	string* str = str_Alloc(count);
+	fread((void* )str_String(str), 1, count, fileHandle);
+	return str;
+}
+
+extern string*
+str_CanonicalizeLineEndings(string* srcString) {
+	string* destString = str_Alloc(str_Length(srcString) + 1);
+
+	char* src = srcString->data;
+	char* dest = (char* )str_String(destString);
+	while (src < srcString->data + srcString->length) {
+		if ((src[0] == 10 && src[1] == 13) || (src[0] == 13 && src[1] == 10)) {
+			*dest++ = '\n';
+			src += 2;
+		} else if (src[0] == 10 || src[0] == 13) {
+			*dest++ = '\n';
+			src += 1;
+		} else {
+			*dest++ = *src++;
+		}
+	}
+
+	*dest++ = '\n';
+	destString->length = dest - destString->data;
+
+	return destString;
+}

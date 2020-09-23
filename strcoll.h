@@ -49,6 +49,9 @@ strset_Remove(set_t* set, const string* element) {
 extern vec_t* 
 strvec_Create(void);
 
+extern vec_t*
+strvec_Clone(vec_t* collection);
+
 INLINE void
 strvec_PushBack(vec_t* vec, string* element) {
 	vec_PushBack(vec, (intptr_t) str_Copy(element));
@@ -57,6 +60,11 @@ strvec_PushBack(vec_t* vec, string* element) {
 INLINE string*
 strvec_StringAt(vec_t* vec, size_t index) {
 	return str_Copy((string *) vec_ElementAt(vec, index));
+}
+
+INLINE void
+strvec_SetAt(vec_t* vec, size_t index, string* element) {
+	vec_SetAt(vec, index, (intptr_t) str_Copy(element));
 }
 
 #define strvec_Free vec_Free
@@ -76,7 +84,7 @@ strmap_Value(map_t* map, const string* key, intptr_t* value) {
 
 INLINE void
 strmap_Insert(map_t* map, const string* key, intptr_t value) {
-    map_Insert(map, (intptr_t) key, value);
+    map_Insert(map, (intptr_t) str_Copy(key), value);
 }
 
 INLINE bool

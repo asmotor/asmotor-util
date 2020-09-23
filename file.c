@@ -101,7 +101,7 @@ fgetsz(char* destination, size_t maxLength, FILE* fileHandle) {
     return r;
 }
 
-string*
+extern string*
 fgetstr(FILE* fileHandle) {
     string_buffer* buf = strbuf_Create();
 
@@ -117,8 +117,7 @@ fgetstr(FILE* fileHandle) {
     return result;
 }
 
-
-void
+extern void
 fputsz(const char* str, FILE* fileHandle) {
     while (*str) {
         fputc(*str++, fileHandle);

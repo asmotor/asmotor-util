@@ -36,11 +36,11 @@ typedef struct {
 
 
 extern vec_t* 
-vec_Create(free_t free) {
+vec_CreateLength(free_t free, size_t size) {
     vec_t* vec = (vec_t*) mem_Alloc(sizeof(vec_t));
     vec->free = free;
     vec->userData = 0;
-    vec->allocatedElements = 16;
+    vec->allocatedElements = size;
     vec->totalElements = 0;
     vec->elements = mem_Alloc(sizeof(intptr_t) * vec->allocatedElements);
 
@@ -51,7 +51,7 @@ vec_Create(free_t free) {
 extern void
 vec_PushBack(vec_t* vec, intptr_t element) {
     if (vec->totalElements >= vec->allocatedElements) {
-        vec->allocatedElements += vec->allocatedElements >> 1;
+        vec->allocatedElements += (vec->allocatedElements >> 1) + 1;
         vec->elements = mem_Realloc(vec->elements, sizeof(intptr_t) * vec->allocatedElements);
     }
     vec->elements[vec->totalElements++] = element;
@@ -93,4 +93,12 @@ extern intptr_t
 vec_ElementAt(vec_t* vec, ssize_t index) {
 	assert(index >= 0 && index < vec->totalElements);
 	return vec->elements[index];
+}
+
+
+extern void
+vec_SetAt(vec_t* vec, intptr_t element, ssize_t index) {
+	assert(index >= 0 && index < vec->totalElements);
+	vec->free(vec->userData, vec->elements[index]);
+	vec->elements[index] = element;
 }

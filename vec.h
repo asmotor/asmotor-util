@@ -30,7 +30,12 @@ typedef void vec_t;
 #endif
 
 extern vec_t* 
-vec_Create(free_t free);
+vec_CreateLength(free_t free, size_t size);
+
+INLINE vec_t* 
+vec_Create(free_t free) {
+	return vec_CreateLength(free, 16);
+}
 
 extern void
 vec_PushBack(vec_t* vec, intptr_t element);
@@ -46,5 +51,8 @@ vec_RemoveAt(vec_t* vec, ssize_t index);
 
 extern intptr_t
 vec_ElementAt(vec_t* vec, ssize_t index);
+
+extern void
+vec_SetAt(vec_t* vec, intptr_t element, ssize_t index);
 
 #endif

@@ -48,3 +48,28 @@ extern map_t*
 strmap_Create(free_t valueFree) {
     return map_Create(stringEquals, stringHash, stringFree, valueFree);
 }
+
+
+// String vector functions
+
+extern vec_t* 
+strvec_Create(void) {
+	return vec_Create(stringFree);
+}
+
+
+extern vec_t* 
+strvec_CreateLength(size_t size) {
+	return vec_CreateLength(stringFree, size);
+}
+
+
+extern vec_t*
+strvec_Clone(vec_t* collection) {
+	vec_t* dest = strvec_CreateLength(strvec_Count(collection));
+	for (size_t i = 0; i < strvec_Count(collection); ++i) {
+		strvec_PushBack(dest, strvec_StringAt(collection, i));
+	}
+
+	return dest;
+}
