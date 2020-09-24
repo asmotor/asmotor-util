@@ -40,7 +40,7 @@ vec_CreateLength(free_t free, size_t size) {
     vec_t* vec = (vec_t*) mem_Alloc(sizeof(vec_t));
     vec->free = free;
     vec->userData = 0;
-    vec->allocatedElements = size;
+    vec->allocatedElements = size == 0 ? 1 : size;
     vec->totalElements = 0;
     vec->elements = mem_Alloc(sizeof(intptr_t) * vec->allocatedElements);
 
