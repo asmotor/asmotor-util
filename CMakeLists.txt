@@ -1,5 +1,5 @@
 add_library(util 
-    asmotor.h
+    util.h
     crc32.c
     crc32.h
     file.c

@@ -83,7 +83,7 @@ vec_RemoveAt(vec_t* vec, ssize_t index) {
 
 	vec->free(vec->userData, vec->elements[index]);
 	vec->totalElements -= 1;
-	if (index < vec->totalElements) {
+	if (index < (ssize_t) vec->totalElements) {
 		memcpy(&vec[index], &vec[index + 1], vec->totalElements - index);
 	}
 }
