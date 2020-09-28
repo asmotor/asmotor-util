@@ -97,7 +97,7 @@ vec_ElementAt(vec_t* vec, ssize_t index) {
 
 
 extern void
-vec_SetAt(vec_t* vec, intptr_t element, ssize_t index) {
+vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
 	assert(index >= 0 && index < vec->totalElements);
 	vec->free(vec->userData, vec->elements[index]);
 	vec->elements[index] = element;
