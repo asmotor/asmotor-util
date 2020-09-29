@@ -45,4 +45,7 @@ mem_Realloc(void* memory, size_t size);
 extern void
 mem_Free(void* memory);
 
+extern void
+mem_ShowLeaks(void);
+
 #endif
