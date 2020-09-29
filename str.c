@@ -301,7 +301,8 @@ str_JenkinsHashLength(const void* str, ssize_t length) {
 extern string*
 str_ReadFile(FILE* fileHandle, size_t count) {
 	string* str = str_Alloc(count);
-	fread((void* )str_String(str), 1, count, fileHandle);
+	fread(str->data, 1, count, fileHandle);
+    str->data[count] = 0;
 	return str;
 }
 
