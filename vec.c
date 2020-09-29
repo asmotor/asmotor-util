@@ -25,6 +25,7 @@
 #include "set.h"
 
 typedef struct {
+	uint32_t refCount;
     free_t free;
     intptr_t userData;
     uint32_t allocatedElements;
@@ -34,13 +35,13 @@ typedef struct {
 
 #include "vec.h"
 
-
 extern vec_t* 
 vec_CreateLength(free_t free, size_t size) {
     vec_t* vec = (vec_t*) mem_Alloc(sizeof(vec_t));
+	vec->refCount = 0;
     vec->free = free;
     vec->userData = 0;
-    vec->allocatedElements = size == 0 ? 1 : size;
+    vec->allocatedElements = size == 0 ? 1 : (uint32_t) size;
     vec->totalElements = 0;
     vec->elements = mem_Alloc(sizeof(intptr_t) * vec->allocatedElements);
 
@@ -50,6 +51,7 @@ vec_CreateLength(free_t free, size_t size) {
 
 extern void
 vec_PushBack(vec_t* vec, intptr_t element) {
+	assert (!vec_Frozen(vec));
     if (vec->totalElements >= vec->allocatedElements) {
         vec->allocatedElements += (vec->allocatedElements >> 1) + 1;
         vec->elements = mem_Realloc(vec->elements, sizeof(intptr_t) * vec->allocatedElements);
@@ -60,7 +62,7 @@ vec_PushBack(vec_t* vec, intptr_t element) {
 
 extern size_t
 vec_Count(vec_t* vec) {
-    assert(vec != NULL);
+    assert (vec != NULL);
     return vec->totalElements;
 }
 
@@ -69,17 +71,25 @@ extern void
 vec_Free(vec_t* vec) {
     assert(vec != NULL);
 
-    for (uint32_t i = 0; i < vec->totalElements; ++i) {
-        vec->free(vec->userData, vec->elements[i]);
-    }
-    mem_Free(vec->elements);
-    mem_Free(vec);
+	if (vec_Frozen(vec)) {
+		vec->refCount -= 1;
+	}
+
+	if (!vec_Frozen(vec)) {
+		for (uint32_t i = 0; i < vec->totalElements; ++i) {
+			vec->free(vec->userData, vec->elements[i]);
+		}
+		mem_Free(vec->elements);
+		mem_Free(vec);
+	}
 }
 
 
 extern void
 vec_RemoveAt(vec_t* vec, ssize_t index) {
-	assert(index >= 0 && index < vec->totalElements);
+    assert (vec != NULL);
+	assert (index >= 0 && index < vec->totalElements);
+	assert (!vec_Frozen(vec));
 
 	vec->free(vec->userData, vec->elements[index]);
 	vec->totalElements -= 1;
@@ -91,14 +101,53 @@ vec_RemoveAt(vec_t* vec, ssize_t index) {
 
 extern intptr_t
 vec_ElementAt(vec_t* vec, ssize_t index) {
-	assert(index >= 0 && index < vec->totalElements);
+    assert (vec != NULL);
+	assert (index >= 0 && index < vec->totalElements);
 	return vec->elements[index];
 }
 
 
 extern void
 vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
+    assert (vec != NULL);
+	assert (!vec_Frozen(vec));
 	assert(index >= 0 && index < vec->totalElements);
 	vec->free(vec->userData, vec->elements[index]);
 	vec->elements[index] = element;
+}
+
+
+extern vec_t*
+vec_Freeze(vec_t* vec) {
+    assert (vec != NULL);
+	assert (!vec_Frozen(vec));
+	vec->refCount = 1;
+	return vec;
+}
+
+
+extern bool
+vec_Frozen(vec_t* vec) {
+	assert (vec != NULL);
+	return vec->refCount != 0;
+}
+
+
+extern vec_t*
+vec_Copy(vec_t* vec, copy_t copy) {
+	if (vec != NULL) {
+		if (vec_Frozen(vec)) {
+			vec->refCount += 1;
+			return vec;
+		}
+
+		vec_t* dest = vec_CreateLength(vec->free, vec->totalElements);
+		for (size_t i = 0; i < vec_Count(vec); ++i) {
+			vec_PushBack(dest, copy(vec->userData, vec_ElementAt(vec, i)));
+		}
+
+		return dest;
+	} else {
+		return NULL;
+	}
 }

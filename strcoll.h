@@ -50,7 +50,7 @@ extern vec_t*
 strvec_Create(void);
 
 extern vec_t*
-strvec_Clone(vec_t* collection);
+strvec_Copy(vec_t* collection);
 
 INLINE void
 strvec_PushBack(vec_t* vec, string* element) {
@@ -67,6 +67,8 @@ strvec_SetAt(vec_t* vec, size_t index, string* element) {
 	vec_SetAt(vec, index, (intptr_t) str_Copy(element));
 }
 
+#define strvec_Freeze vec_Freeze
+#define strvec_Frozen vec_Frozen
 #define strvec_Free vec_Free
 #define strvec_Count vec_Count
 #define strvec_RemoveAt vec_RemoveAt

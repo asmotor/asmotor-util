@@ -55,4 +55,14 @@ vec_ElementAt(vec_t* vec, ssize_t index);
 extern void
 vec_SetAt(vec_t* vec, ssize_t index, intptr_t element);
 
+extern vec_t*
+vec_Freeze(vec_t* vec);
+
+extern bool
+vec_Frozen(vec_t* vec);
+
+extern vec_t*
+vec_Copy(vec_t* vec, copy_t copy);
+
+
 #endif

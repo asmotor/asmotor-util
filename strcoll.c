@@ -33,6 +33,11 @@ stringFree(intptr_t userData, intptr_t element) {
     str_Free((string*) element);
 }
 
+static intptr_t
+stringCopy(intptr_t userData, intptr_t element) {
+    return (intptr_t) str_Copy((string*) element);
+}
+
 
 // String set functions
 
@@ -65,15 +70,6 @@ strvec_CreateLength(size_t size) {
 
 
 extern vec_t*
-strvec_Clone(vec_t* collection) {
-	if (collection != NULL) {
-		vec_t* dest = strvec_CreateLength(strvec_Count(collection));
-		for (size_t i = 0; i < strvec_Count(collection); ++i) {
-			strvec_PushBack(dest, strvec_StringAt(collection, i));
-		}
-
-		return dest;
-	} else {
-		return NULL;
-	}
+strvec_Copy(vec_t* vec) {
+	return vec_Copy(vec, stringCopy);
 }
