@@ -137,8 +137,13 @@ fexists(const char* filename) {
 }
 
 string*
-fcanonicalizePath(string* fileName) {
-    return str_Replace(fileName, PATH_REPLACE, PATH_SEPARATOR);
+#if defined(_DEBUG)
+fcanonicalizePathDebug(string* path, const char* filename, int lineNumber) {
+    return str_ReplaceDebug(path, PATH_REPLACE, PATH_SEPARATOR, filename, lineNumber);
+#else
+fcanonicalizePath(string* path) {
+    return str_Replace(path, PATH_REPLACE, PATH_SEPARATOR);
+#endif
 }
 
 string*

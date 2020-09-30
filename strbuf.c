@@ -39,8 +39,13 @@ strbuf_Free(string_buffer* buffer) {
 }
 
 string*
+#if defined(_DEBUG)
+strbuf_StringDebug(string_buffer* buffer, const char* filename, int lineNumber) {
+    return str_CreateLengthDebug(buffer->data, buffer->size, filename, lineNumber);
+#else
 strbuf_String(string_buffer* buffer) {
     return str_CreateLength(buffer->data, buffer->size);
+#endif
 }
 
 void

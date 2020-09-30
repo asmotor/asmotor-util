@@ -50,16 +50,21 @@ strset_Create() {
 // String map functions
 
 extern map_t*
+#if defined(_DEBUG)
+strmap_CreateDebug(free_t valueFree, const char* filename, int lineNumber) {
+    return map_CreateDebug(stringEquals, stringHash, stringFree, valueFree, filename, lineNumber);
+#else
 strmap_Create(free_t valueFree) {
     return map_Create(stringEquals, stringHash, stringFree, valueFree);
+#endif
 }
 
 
 // String vector functions
 
 extern vec_t* 
-strvec_Create(void) {
-	return vec_Create(stringFree);
+strvec_CreateDebug(const char* filename, int lineNumber) {
+	return vec_CreateDebug(stringFree, filename, lineNumber);
 }
 
 

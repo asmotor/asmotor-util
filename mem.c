@@ -127,7 +127,7 @@ mem_Free(void* memory) {
 
 void
 mem_ShowLeaks(void) {
-#if _DEBUG
+#if defined(_DEBUG)
     for (SMemoryChunk* chunk = g_memoryList; chunk != NULL; chunk = list_GetNext(chunk)) {
         printf("Leak at %s:%d\n", chunk->filename, chunk->lineNumber);
     }

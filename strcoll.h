@@ -46,8 +46,13 @@ strset_Remove(set_t* set, const string* element) {
 
 // String vector functions
 
-extern vec_t* 
+extern vec_t*
+#if defined(_DEBUG)
+strvec_CreateDebug(const char* filename, int lineNumber);
+#define strvec_Create() strvec_CreateDebug(__FILE__, __LINE__)
+#else
 strvec_Create(void);
+#endif
 
 extern vec_t*
 strvec_Copy(vec_t* collection);
@@ -77,7 +82,12 @@ strvec_SetAt(vec_t* vec, size_t index, string* element) {
 // String map functions
 
 extern map_t*
+#if defined(_DEBUG)
+strmap_CreateDebug(free_t valueFree, const char* filename, int lineNumber);
+#define strmap_Create(valueFree) strmap_CreateDebug(valueFree, __FILE__, __LINE__)
+#else
 strmap_Create(free_t valueFree);
+#endif
 
 INLINE bool
 strmap_Value(map_t* map, const string* key, intptr_t* value) {
@@ -93,5 +103,7 @@ INLINE bool
 strmap_HasKey(map_t* map, const string* key) {
     return map_HasKey(map, (intptr_t) key);
 }
+
+#define strmap_Free map_Free
 
 #endif

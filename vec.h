@@ -30,11 +30,22 @@ typedef void vec_t;
 #endif
 
 extern vec_t* 
+#if defined(_DEBUG)
+vec_CreateLengthDebug(free_t free, size_t size, const char* filename, int lineNumber);
+#define vec_CreateLength(free, size) vec_CreateLengthDebug(free, size, __FILE__, __LINE__)
+#else
 vec_CreateLength(free_t free, size_t size);
+#endif
 
 INLINE vec_t* 
+#if defined(_DEBUG)
+vec_CreateDebug(free_t free, const char* filename, int lineNumber) {
+	return vec_CreateLengthDebug(free, 16, filename, lineNumber);
+#define vec_Create(free) vec_CreateDebug(free, __FILE__, __LINE__)
+#else
 vec_Create(free_t free) {
 	return vec_CreateLength(free, 16);
+#endif
 }
 
 extern void

@@ -37,7 +37,12 @@ extern void
 strbuf_Free(string_buffer* buffer);
 
 extern string*
+#if defined(_DEBUG)
+strbuf_StringDebug(string_buffer* buffer, const char* filename, int lineNumber);
+#define strbuf_String(buffer) strbuf_StringDebug(buffer, __FILE__, __LINE__)
+#else
 strbuf_String(string_buffer* buffer);
+#endif
 
 extern void
 strbuf_AppendArgs(string_buffer* buffer, const char* format, va_list args);

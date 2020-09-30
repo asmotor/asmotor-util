@@ -84,8 +84,13 @@ forEachSetElement(intptr_t element, intptr_t data) {
 // Public functions
 
 extern map_t*
+#if defined(_DEBUG)
+map_CreateDebug(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree, const char* filename, int lineNumber) {
+    map_t* map = (map_t*) mem_AllocImpl(sizeof(map_t), filename, lineNumber);
+#else
 map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree) {
     map_t* map = (map_t*) mem_Alloc(sizeof(map_t));
+#endif
     map->set = set_Create(keyvalueEquals, keyvalueHash, keyvalueFree);
     map->keyEquals = keyEquals;
     map->keyHash = keyHash;
@@ -94,6 +99,11 @@ map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree)
     set_SetUserData(map->set, (intptr_t) map);
 
     return map;
+}
+
+extern void
+map_Free(map_t* map) {
+	set_Free(map->set);
 }
 
 extern void

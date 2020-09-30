@@ -22,6 +22,10 @@
 #include <stdlib.h>
 #include "types.h"
 
+#if !defined(NDEBUG) && !defined(_DEBUG)
+#   define _DEBUG
+#endif
+
 #if defined(__GNUC_STDC_INLINE__)
 #	define INLINE static inline
 #	define NORETURN(x) x __attribute__ ((noreturn))

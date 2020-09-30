@@ -85,7 +85,12 @@ extern void
 fputsz(const char* str, FILE* fileHandle);
 
 extern string*
-fcanonicalizePath(string* fileName);
+#if defined(_DEBUG)
+fcanonicalizePathDebug(string* path, const char* filename, int lineNumber);
+#define fcanonicalizePath(path) fcanonicalizePathDebug(path, __FILE__, __LINE__)
+#else
+fcanonicalizePath(string* path);
+#endif
 
 /* Replace file name component from path */
 extern string*

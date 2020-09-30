@@ -21,9 +21,7 @@
 
 #include <stdlib.h>
 
-#if !defined(NDEBUG) && !defined(_DEBUG)
-#   define _DEBUG
-#endif
+#include "util.h"
 
 #if defined(_DEBUG)
 extern void*
@@ -40,6 +38,17 @@ mem_Alloc(size_t size);
 
 extern void*
 mem_Realloc(void* memory, size_t size);
+
+INLINE void*
+mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
+	return mem_Alloc(size);
+}
+
+INLINE void*
+mem_ReallocImpl(void* memory, size_t size, const char* filename, int lineNumber) {
+	return mem_Realloc(memory, size);
+}
+
 #endif
 
 extern void

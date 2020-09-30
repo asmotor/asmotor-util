@@ -30,7 +30,15 @@ typedef void (*map_foreach_t)(intptr_t key, intptr_t value, intptr_t data);
 
 
 extern map_t*
+#if defined(_DEBUG)
+map_CreateDebug(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree, const char* filename, int lineNumber);
+#define map_Create(keyEquals, keyHash, keyFree, valueFree) map_CreateDebug(keyEquals, keyHash, keyFree, valueFree, __FILE__, __LINE__)
+#else
 map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree);
+#endif
+
+extern void
+map_Free(map_t* map);
 
 extern void
 map_Insert(map_t* map, intptr_t key, intptr_t value);

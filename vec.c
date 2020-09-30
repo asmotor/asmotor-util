@@ -36,14 +36,23 @@ typedef struct {
 #include "vec.h"
 
 extern vec_t* 
+#if defined(_DEBUG)
+vec_CreateLengthDebug(free_t free, size_t size, const char* filename, int lineNumber) {
+    vec_t* vec = (vec_t*) mem_AllocImpl(sizeof(vec_t), filename, lineNumber);
+#else
 vec_CreateLength(free_t free, size_t size) {
     vec_t* vec = (vec_t*) mem_Alloc(sizeof(vec_t));
+#endif
 	vec->refCount = 0;
     vec->free = free;
     vec->userData = 0;
     vec->allocatedElements = size == 0 ? 1 : (uint32_t) size;
     vec->totalElements = 0;
+#if defined(_DEBUG)
+    vec->elements = mem_AllocImpl(sizeof(intptr_t) * vec->allocatedElements, filename, lineNumber);
+#else
     vec->elements = mem_Alloc(sizeof(intptr_t) * vec->allocatedElements);
+#endif
 
     return vec;
 }
