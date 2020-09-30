@@ -43,6 +43,8 @@ strset_Remove(set_t* set, const string* element) {
     set_Remove(set, (intptr_t) element);
 }
 
+#define strset_Free set_Free
+
 
 // String vector functions
 
