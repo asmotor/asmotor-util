@@ -26,7 +26,15 @@
 #include "str.h"
 #include "strbuf.h"
 
-static string* g_emptyString = NULL;
+typedef struct {
+	uint32_t refCount;
+	ssize_t length;
+	char data[1];
+} empty_string;
+
+static empty_string g_emptyString = {
+	1, 0, ""
+};
 
 static char
 createSpace(void) {
@@ -131,11 +139,7 @@ str_CreateFormat(const char* format, ...) {
 
 string*
 str_Empty() {
-	if (g_emptyString == NULL) {
-		g_emptyString = str_AllocDebug(0, __FILE__, __LINE__);
-		g_emptyString->data[0] = 0;
-	}
-	return str_Copy(g_emptyString);
+	return str_Copy((string*) &g_emptyString);
 }
 
 void

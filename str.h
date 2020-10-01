@@ -30,7 +30,7 @@
 
 typedef struct {
 	uint32_t refCount;
-	ssize_t length;
+	uint32_t length;
 	char data[];
 } string;
 

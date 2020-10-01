@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #include "util.h"
 #include "mem.h"
@@ -126,10 +127,44 @@ mem_Free(void* memory) {
 
 
 void
+hexDumpLine(const uint8_t* data, size_t count) {
+	for (size_t i = 0; i < count; ++i) {
+		printf("%02X ", data[i]);
+	}
+	for (size_t i = 16 * 3 + 1; i > count * 3; --i) {
+		printf(" ");
+	}
+	for (size_t i = 0; i < count; ++i) {
+		if (isprint(data[i])) {
+			printf("%c", data[i]);
+		} else {
+			printf(".");
+		}
+	}
+	printf("\n");
+}
+
+void
+mem_HexDump(const uint8_t* data, size_t count) {
+	while (count > 0) {
+		size_t toDump = count;
+		if (toDump > 16)
+			toDump = 16;
+		
+		hexDumpLine(data, toDump);
+		count -= toDump;
+		data += toDump;
+	}
+}
+
+
+void
 mem_ShowLeaks(void) {
 #if defined(_DEBUG)
     for (SMemoryChunk* chunk = g_memoryList; chunk != NULL; chunk = list_GetNext(chunk)) {
-        printf("Leak %s:%d (%p)\n", chunk->filename, chunk->lineNumber, ((uint8_t*) chunk) + sizeof(SMemoryChunk));
+		uint8_t* data = ((uint8_t*) chunk) + sizeof(SMemoryChunk);
+        printf("Leak %s:%d (%p)\n", chunk->filename, chunk->lineNumber, data);
+		mem_HexDump(data, 32);
     }
 #endif
 }
