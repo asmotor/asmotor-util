@@ -149,7 +149,7 @@ fcanonicalizePath(string* path) {
 string*
 freplaceFileComponent(string* fullPath, string* fileName) {
     if (fullPath == NULL)
-        return fileName;
+        return str_Copy(fileName);
 
     const char* lastSlash = str_String(fullPath) + str_Length(fullPath) - 1;
 
