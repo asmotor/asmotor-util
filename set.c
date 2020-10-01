@@ -176,8 +176,8 @@ set_Free(set_t* set) {
         if (list->elements != NULL) {
             for (uint32_t j = 0; j < list->totalElements; ++j) {
                 set->free(set->userData, list->elements[j]);
-                mem_Free(list->elements);
             }
+            mem_Free(list->elements);
         }
     }
     mem_Free(set);

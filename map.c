@@ -104,6 +104,7 @@ map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree)
 extern void
 map_Free(map_t* map) {
 	set_Free(map->set);
+	mem_Free(map);
 }
 
 extern void
