@@ -156,7 +156,7 @@ string*
 #if defined(_DEBUG)
 str_ConcatDebug(const string* str1, const string* str2, const char* file, int lineNumber) {
 #else
-str_Concat(const string* str1, const string* str2, const char* file, int lineNumber) {
+str_Concat(const string* str1, const string* str2) {
 #endif
 	ssize_t length1 = str_Length(str1);
 	ssize_t length2 = str_Length(str2);

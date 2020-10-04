@@ -63,9 +63,14 @@ strmap_Create(free_t valueFree) {
 // String vector functions
 
 extern vec_t* 
+#if defined(_DEBUG)
 strvec_CreateDebug(const char* filename, int lineNumber) {
 	return vec_CreateDebug(stringFree, filename, lineNumber);
+#else
+strvec_Create(void) {
+	return vec_Create(stringFree);
 }
+#endif
 
 
 extern vec_t* 
