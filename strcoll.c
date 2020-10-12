@@ -69,8 +69,8 @@ strvec_CreateDebug(const char* filename, int lineNumber) {
 #else
 strvec_Create(void) {
 	return vec_Create(stringFree);
-}
 #endif
+}
 
 
 extern vec_t* 
