@@ -25,7 +25,13 @@
 #include "mem.h"
 #include "lists.h"
 
-#define HEADERSIZE sizeof(SMemoryChunk)
+#if __STDC_VERSION__ > 201112L
+// C11
+#	define ALIGN _Alignof(long double)
+#else
+#	define ALIGN 16
+#endif
+#define HEADERSIZE ((sizeof(SMemoryChunk) + (ALIGN - 1)) & -ALIGN)
 
 typedef struct MemoryChunk {
     list_Data(struct MemoryChunk);
@@ -36,7 +42,7 @@ typedef struct MemoryChunk {
 #endif
 } SMemoryChunk;
 
-static SMemoryChunk* g_memoryList;
+static SMemoryChunk* g_memoryList = NULL;
 
 static void*
 #if defined(_DEBUG)
@@ -61,7 +67,7 @@ checkMemPointer(SMemoryChunk* chunk, size_t size) {
 
 #if defined(_DEBUG)
 void*
-mem_AllocImpl(size_t size, const char *filename, int lineNumber) {
+mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
     assert (size != 0);
     uint8_t* mem = CheckMemPointer(malloc(size + HEADERSIZE), size, filename, lineNumber);
     for (size_t i = 0; i < size; ++i) {

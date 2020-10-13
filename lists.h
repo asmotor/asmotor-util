@@ -25,13 +25,13 @@
     type* pPrev;        \
     type* pNext
 
-#define list_Init(e)    {(e)->pPrev=NULL;(e)->pNext=NULL;}
+#define list_Init(e)    do {(e)->pPrev=NULL;(e)->pNext=NULL;} while(0)
 #define list_GetNext(e) ((e)->pNext)
 #define list_GetPrev(e) ((e)->pPrev)
 #define list_IsLast(e)  (list_GetNext(e)==NULL?true:false)
 #define list_IsFirst(e) (list_GetPrev(e)==NULL?true:false)
 
-#define list_Remove(head, e) {           \
+#define list_Remove(head, e) do {        \
     if ((head) == (e)) {                 \
         (head) = list_GetNext(e);        \
         if (head)                        \
@@ -42,22 +42,22 @@
             list_GetPrev(list_GetNext(e)) = list_GetPrev(e); \
         }                                                    \
     }                                                        \
-}
+} while(0)
 
-#define list_Insert(head, e) {    \
+#define list_Insert(head, e) do { \
     if (head)                     \
         list_GetPrev(head) = (e); \
     list_GetNext(e) = (head);     \
     list_GetPrev(e) = NULL;       \
     (head) = (e);                 \
-}
+} while(0)
 
-#define list_InsertAfter(where, e) {             \
+#define list_InsertAfter(where, e) do {          \
     list_GetPrev(e) = (where);                   \
     list_GetNext(e) = list_GetNext(where);       \
     if (!list_IsLast(where))                     \
         list_GetPrev(list_GetNext(where)) = (e); \
     list_GetNext(where) = (e);                   \
-}
+} while(0)
 
 #endif /* UTIL_LISTS_H_INCLUDED_ */
