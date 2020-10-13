@@ -381,7 +381,7 @@ str_ReadFileDebug(FILE* fileHandle, size_t count, const char* filename, int line
 str_ReadFile(FILE* fileHandle, size_t count) {
 	string* str = str_Alloc(count);
 #endif
-	fread(str->data, 1, count, fileHandle);
+	count = fread(str->data, 1, count, fileHandle);
 	str->data[count] = 0;
 	return str;
 }
