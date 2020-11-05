@@ -65,7 +65,7 @@ str_AllocDebug(ssize_t length, const char* file, int lineNumber) {
 str_Alloc(ssize_t length) {
 	string* pString = mem_Alloc(sizeof(string) + length + 1);
 #endif
-	pString->length = length;
+	pString->length = (uint32_t) length;
 	pString->refCount = 1;
 	return pString;
 }
@@ -409,7 +409,7 @@ str_CanonicalizeLineEndings(string* srcString) {
 	}
 
 	*dest++ = '\n';
-	destString->length = dest - destString->data;
+	destString->length = (uint32_t) (dest - destString->data);
 
 	return destString;
 }
