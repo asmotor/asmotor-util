@@ -169,7 +169,7 @@ mem_ShowLeaks(void) {
 #if defined(_DEBUG)
     for (SMemoryChunk* chunk = g_memoryList; chunk != NULL; chunk = list_GetNext(chunk)) {
 		uint8_t* data = ((uint8_t*) chunk) + sizeof(SMemoryChunk);
-        printf("Leak %s:%d (%p)\n", chunk->filename, chunk->lineNumber, data);
+        printf("Leak %s:%d (%p)\n", chunk->filename, chunk->lineNumber, (void *) data);
 		mem_HexDump(data, 32);
     }
 #endif

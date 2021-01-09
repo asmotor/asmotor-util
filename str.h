@@ -77,7 +77,7 @@ str_CreateArgs(const char* format, va_list args);
 extern string*
 #if defined(_DEBUG)
 str_CreateFormatDebug(const char* filename, int lineNumber, const char* format, ...);
-#define str_CreateFormat(format, ...) str_CreateFormatDebug(__FILE__, __LINE__, format, ##__VA_ARGS__)
+#define str_CreateFormat(format, ...) str_CreateFormatDebug(__FILE__, __LINE__, format, __VA_ARGS__)
 #else
 str_CreateFormat(const char* format, ...);
 #endif
