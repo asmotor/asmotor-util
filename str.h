@@ -160,6 +160,16 @@ str_NotEqual(const string* str1, const string* str2) {
 	return !str_Equal(str1, str2);
 }
 
+INLINE ssize_t
+str_Count(const string* str, char ch) {
+	ssize_t count = 0;
+	for (ssize_t i = 0; i < str->length; ++i) {
+		if (str->data[i] == ch)
+			count += 1;
+	}
+	return count;
+}
+
 INLINE string*
 str_Copy(const string* str) {
 	if (str != NULL)
