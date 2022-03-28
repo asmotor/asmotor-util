@@ -69,6 +69,18 @@ fputbl(uint32_t value, FILE* fileHandle) {
     fputc(value & 0xFFu, fileHandle);
 }
 
+uint32_t
+fgetbl(FILE* fileHandle) {
+    uint32_t r;
+
+    r = (uint32_t) fgetc(fileHandle) << 24u;
+    r |= (uint32_t) fgetc(fileHandle) << 16u;
+    r |= (uint32_t) fgetc(fileHandle) << 8u;
+    r |= (uint8_t) fgetc(fileHandle);
+
+    return r;
+}
+
 uint16_t
 fgetbw(FILE* fileHandle) {
     uint16_t hi = (uint16_t) fgetc(fileHandle) << 8u;
@@ -79,6 +91,12 @@ void
 fputbw(uint16_t value, FILE* fileHandle) {
     fputc((uint8_t) (value >> 8u), fileHandle);
     fputc((uint8_t) value, fileHandle);
+}
+
+uint16_t
+fgetlw(FILE* fileHandle) {
+    uint16_t lo = (uint16_t) fgetc(fileHandle);
+    return lo | (uint16_t) (fgetc(fileHandle) << 8u);
 }
 
 void

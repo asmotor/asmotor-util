@@ -60,6 +60,10 @@ fgetll(FILE* fileHandle);
 extern void
 fputbl(uint32_t value, FILE* fileHandle);
 
+/* Retrieve a big endian 32 bit value from a file */
+extern uint32_t
+fgetbl(FILE* fileHandle);
+
 /* Retrieve a big endian 16 bit value from a file */
 extern uint16_t
 fgetbw(FILE* fileHandle);
@@ -67,6 +71,10 @@ fgetbw(FILE* fileHandle);
 /* Write a big endian 16 bit value to a file */
 extern void
 fputbw(uint16_t value, FILE* fileHandle);
+
+/* Retrieve a little endian 16 bit value from a file */
+extern uint16_t
+fgetlw(FILE* fileHandle);
 
 /* Write a little endian 16 bit value to a file */
 extern void
