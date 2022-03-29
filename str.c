@@ -297,6 +297,7 @@ str_ToLower(const string* str) {
 	for (ssize_t i = 0; i < length; ++i) {
 		str_Set(pLowerString, i, (char) tolower(str_CharAt(str, i)));
 	}
+	str_Set(pLowerString, length, 0);
 
 	return pLowerString;
 }
