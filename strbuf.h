@@ -20,6 +20,7 @@
 #define UTIL_STRBUF_H_INCLUDED_
 
 #include <string.h>
+#include <stdarg.h>
 
 #include "util.h"
 #include "str.h"
