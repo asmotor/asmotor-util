@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-extern uint32_t crc32(const uint8_t *s, size_t len);
+extern uint32_t 
+crc32(const uint8_t *s, size_t len);
 
 #endif /* __CRC32_H__ */

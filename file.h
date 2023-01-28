@@ -1,19 +1,19 @@
 /*  Copyright 2008-2022 Carsten Elton Sorensen
 
-    This file is part of ASMotor.
+	This file is part of ASMotor.
 
-    ASMotor is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	ASMotor is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    ASMotor is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	ASMotor is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef UTIL_FILE_H_INCLUDED_
@@ -29,12 +29,12 @@
 INLINE FILE*
 _util_fopen(const char* name, const char* mode) {
 #if defined(_MSC_VER)
-    FILE* f;
-    if (fopen_s(&f, name, mode) == 0)
-        return f;
-    return NULL;
+	FILE* f;
+	if (fopen_s(&f, name, mode) == 0)
+		return f;
+	return NULL;
 #else
-    return fopen(name, mode);
+	return fopen(name, mode);
 #endif
 }
 

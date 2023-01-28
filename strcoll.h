@@ -1,19 +1,19 @@
 /*  Copyright 2008-2022 Carsten Elton Sorensen
 
-    This file is part of ASMotor.
+	This file is part of ASMotor.
 
-    ASMotor is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	ASMotor is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    ASMotor is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	ASMotor is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #if !defined(UTIL_STRCOLL_H_INCLUDED_)
@@ -30,17 +30,17 @@ strset_Create();
 
 INLINE bool
 strset_Exists(set_t* set, const string* element) {
-    return set_Exists(set, (intptr_t) element);
+	return set_Exists(set, (intptr_t) element);
 }
 
 INLINE void
 strset_Insert(set_t* set, string* element) {
-    set_Insert(set, (intptr_t) str_Copy(element));
+	set_Insert(set, (intptr_t) str_Copy(element));
 }
 
 INLINE void
 strset_Remove(set_t* set, const string* element) {
-    set_Remove(set, (intptr_t) element);
+	set_Remove(set, (intptr_t) element);
 }
 
 #define strset_Free set_Free
@@ -93,22 +93,22 @@ strmap_Create(free_t valueFree);
 
 INLINE bool
 strmap_Value(map_t* map, const string* key, intptr_t* value) {
-    return map_Value(map, (intptr_t) key, value);
+	return map_Value(map, (intptr_t) key, value);
 }
 
 INLINE void
 strmap_Insert(map_t* map, const string* key, intptr_t value) {
-    map_Insert(map, (intptr_t) str_Copy(key), value);
+	map_Insert(map, (intptr_t) str_Copy(key), value);
 }
 
 INLINE void
 strmap_Remove(map_t* map, const string* key) {
-    map_Remove(map, (intptr_t) key);
+	map_Remove(map, (intptr_t) key);
 }
 
 INLINE bool
 strmap_HasKey(map_t* map, const string* key) {
-    return map_HasKey(map, (intptr_t) key);
+	return map_HasKey(map, (intptr_t) key);
 }
 
 #define strmap_Free map_Free
