@@ -25,9 +25,10 @@
 #include "mem.h"
 #include "str.h"
 
-#if !defined(IN_SET_C_)
-typedef void set_t;
+struct Set;
+typedef struct Set set_t;
 
+#if !defined(IN_SET_C_)
 typedef bool (*equals_t)(intptr_t userData, intptr_t element1, intptr_t element2);
 typedef uint32_t (*hash_t)(intptr_t userData, intptr_t element);
 typedef void (*free_t)(intptr_t userData, intptr_t element);

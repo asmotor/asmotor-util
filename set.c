@@ -39,7 +39,7 @@ typedef bool (*equals_t)(intptr_t userData, intptr_t element1, intptr_t element2
 typedef uint32_t (*hash_t)(intptr_t userData, intptr_t element);
 typedef void (*free_t)(intptr_t userData, intptr_t element);
 
-typedef struct {
+typedef struct Set {
     equals_t equals;
     hash_t hash;
     free_t free;

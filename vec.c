@@ -24,7 +24,7 @@
 
 #include "set.h"
 
-typedef struct {
+typedef struct Vector {
 	uint32_t refCount;
     free_t free;
     intptr_t userData;
@@ -34,6 +34,15 @@ typedef struct {
 } vec_t;
 
 #include "vec.h"
+
+
+static void
+growVector(vec_t* vec) {
+	assert (!vec_Frozen(vec));
+	vec->allocatedElements += (vec->allocatedElements >> 1) + 1;
+	vec->elements = mem_Realloc(vec->elements, sizeof(intptr_t) * vec->allocatedElements);
+}
+
 
 extern vec_t* 
 #if defined(_DEBUG)
@@ -61,10 +70,8 @@ vec_CreateLength(free_t free, size_t size) {
 extern void
 vec_PushBack(vec_t* vec, intptr_t element) {
 	assert (!vec_Frozen(vec));
-    if (vec->totalElements >= vec->allocatedElements) {
-        vec->allocatedElements += (vec->allocatedElements >> 1) + 1;
-        vec->elements = mem_Realloc(vec->elements, sizeof(intptr_t) * vec->allocatedElements);
-    }
+    if (vec->totalElements >= vec->allocatedElements)
+		growVector(vec);
     vec->elements[vec->totalElements++] = element;
 }
 
@@ -103,7 +110,7 @@ vec_RemoveAt(vec_t* vec, ssize_t index) {
 	vec->free(vec->userData, vec->elements[index]);
 	vec->totalElements -= 1;
 	if (index < (ssize_t) vec->totalElements) {
-		memcpy(&vec->elements[index], &vec->elements[index + 1], sizeof(intptr_t) * (vec->totalElements - index));
+		memmove(&vec->elements[index], &vec->elements[index + 1], sizeof(intptr_t) * (vec->totalElements - index));
 	}
 }
 
@@ -123,6 +130,23 @@ vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
 	assert(index >= 0 && index < vec->totalElements);
 	vec->free(vec->userData, vec->elements[index]);
 	vec->elements[index] = element;
+}
+
+
+extern void
+vec_InsertAt(vec_t* vec, ssize_t index, intptr_t element) {
+    assert (vec != NULL);
+	assert (index >= 0 && index <= vec->totalElements);
+	assert (!vec_Frozen(vec));
+
+	if (vec->totalElements == vec->allocatedElements)
+		growVector(vec);
+
+	if (index < (ssize_t) vec->totalElements)
+		memmove(&vec->elements[index + 1], &vec->elements[index], sizeof(intptr_t) * (vec->totalElements - index));
+
+	vec->elements[index] = element;
+	vec->totalElements += 1;
 }
 
 

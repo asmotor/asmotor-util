@@ -25,9 +25,8 @@
 #include "str.h"
 #include "set.h"
 
-#if !defined(IN_VEC_C_)
-typedef void vec_t;
-#endif
+struct Vector;
+typedef struct Vector vec_t;
 
 extern vec_t* 
 #if defined(_DEBUG)
@@ -59,6 +58,9 @@ vec_Count(vec_t* vec);
 
 extern void
 vec_RemoveAt(vec_t* vec, ssize_t index);
+
+extern void
+vec_InsertAt(vec_t* vec, ssize_t index, intptr_t element);
 
 extern intptr_t
 vec_ElementAt(vec_t* vec, ssize_t index);

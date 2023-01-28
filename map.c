@@ -20,7 +20,7 @@
 
 #include "set.h"
 
-typedef struct {
+typedef struct Map {
     equals_t keyEquals;
     hash_t keyHash;
     free_t keyFree;
