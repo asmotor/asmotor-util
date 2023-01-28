@@ -101,6 +101,11 @@ strmap_Insert(map_t* map, const string* key, intptr_t value) {
     map_Insert(map, (intptr_t) str_Copy(key), value);
 }
 
+INLINE void
+strmap_Remove(map_t* map, const string* key) {
+    map_Remove(map, (intptr_t) key);
+}
+
 INLINE bool
 strmap_HasKey(map_t* map, const string* key) {
     return map_HasKey(map, (intptr_t) key);

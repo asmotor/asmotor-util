@@ -43,6 +43,9 @@ map_Free(map_t* map);
 extern void
 map_Insert(map_t* map, intptr_t key, intptr_t value);
 
+extern void
+map_Remove(map_t* set, intptr_t key);
+
 extern bool
 map_Value(map_t* map, intptr_t key, intptr_t* value);
 

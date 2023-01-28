@@ -116,6 +116,14 @@ map_Insert(map_t* map, intptr_t key, intptr_t value) {
     set_Insert(map->set, (intptr_t) kv);
 }
 
+extern void
+map_Remove(map_t* map, intptr_t key) {
+    keyvalue_t kv;
+    kv.key = key;
+    kv.value = 0;
+    set_Remove(map->set, (intptr_t) &kv);
+}
+
 extern bool
 map_Value(map_t* map, intptr_t key, intptr_t* value) {
     intptr_t element;
