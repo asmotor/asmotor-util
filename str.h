@@ -19,6 +19,7 @@
 #if !defined(UTIL_STR_H_INCLUDED_)
 #define UTIL_STR_H_INCLUDED_
 
+#include <assert.h>
 #include <string.h>
 
 #include "util.h"
@@ -184,11 +185,13 @@ str_Length(const string* str) {
 
 INLINE const char*
 str_String(const string* str) {
+	assert(str != NULL);
 	return str->data;
 }
 
 INLINE char
 str_CharAt(const string* str, ssize_t index) {
+	assert(str != NULL);
 	if (index < 0)
 		index = str_Length(str) + index;
 	return str->data[index];

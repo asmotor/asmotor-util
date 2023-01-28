@@ -24,3 +24,6 @@ add_library(util
     vec.c
     vec.h)
     
+target_include_directories(util INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
