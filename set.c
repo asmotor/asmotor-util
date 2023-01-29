@@ -112,13 +112,24 @@ set_Insert(set_t* set, intptr_t element) {
 
 	SListEntry* list = privateListForElement(set, element);
 
-	if (!privateExists(set, list, element)) {
-		if (list->elements == NULL || list->allocatedElements == list->totalElements) {
-			list->allocatedElements = list->allocatedElements * 2 + 4;
-			list->elements = mem_Realloc(list->elements, list->allocatedElements * sizeof(void *));
+	if (list->totalElements > 0 && list->elements != NULL) {
+		for (uint32_t i = 0; i < list->totalElements; ++i) {
+			if (list->elements[i] == element)
+				return;
+
+			if (set->equals(set->userData, list->elements[i], element)) {
+				set->free(set->userData, list->elements[i]);
+				list->elements[i] = element;
+				return;
+			}
 		}
-		list->elements[list->totalElements++] = element;
 	}
+
+	if (list->elements == NULL || list->allocatedElements == list->totalElements) {
+		list->allocatedElements = list->allocatedElements * 2 + 4;
+		list->elements = mem_Realloc(list->elements, list->allocatedElements * sizeof(void *));
+	}
+	list->elements[list->totalElements++] = element;
 }
 
 extern void

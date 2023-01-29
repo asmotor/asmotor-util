@@ -128,8 +128,10 @@ vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
 	assert (vec != NULL);
 	assert (!vec_Frozen(vec));
 	assert(index >= 0 && index < vec->totalElements);
-	vec->free(vec->userData, vec->elements[index]);
-	vec->elements[index] = element;
+	if (element != vec->elements[index]) {
+		vec->free(vec->userData, vec->elements[index]);
+		vec->elements[index] = element;
+	}
 }
 
 

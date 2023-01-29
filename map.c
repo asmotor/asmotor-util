@@ -112,7 +112,6 @@ map_Insert(map_t* map, intptr_t key, intptr_t value) {
 	keyvalue_t* kv = (keyvalue_t*) mem_Alloc(sizeof(keyvalue_t));
 	kv->key = key;
 	kv->value = value;
-	set_Remove(map->set, (intptr_t) kv);
 	set_Insert(map->set, (intptr_t) kv);
 }
 
