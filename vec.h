@@ -65,7 +65,7 @@ vec_InsertAt(vec_t* vec, ssize_t index, intptr_t element);
 extern intptr_t
 vec_ElementAt(vec_t* vec, ssize_t index);
 
-extern void
+extern intptr_t
 vec_SetAt(vec_t* vec, ssize_t index, intptr_t element);
 
 extern vec_t*
