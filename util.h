@@ -32,6 +32,9 @@
 #elif defined(_MSC_VER)
 #	define INLINE static __inline
 #	define NORETURN(x) __declspec(noreturn) x
+#elif defined(__CALYPSI_CC__)
+#	define INLINE static inline
+#	define NORETURN(x) x __noreturn_function
 #else
 #	define INLINE static
 #	define NORETURN(x) x

@@ -104,6 +104,20 @@ fcanonicalizePath(string* path);
 extern string*
 freplaceFileComponent(string* fullPath, string* fileName);
 
+
+#ifdef __CALYPSI_TARGET_68000__
+typedef int32_t off_t;
+
+INLINE off_t ftello(FILE* fileHandle) {
+	return ftell(fileHandle);
+}
+
+INLINE int fseeko(FILE* fileHandle, off_t offset, int origin) {
+	return fseek(fileHandle, offset, origin);
+}
+#endif
+
+
 #if defined(_MSC_VER)
 typedef __int64 off_t;
 

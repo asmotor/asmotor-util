@@ -27,4 +27,9 @@
 # define NULL 0L
 #endif
 
+#ifdef __CALYPSI_TARGET_68000__
+typedef uint32_t ssize_t;
+# endif
+
+
 #endif /* UTIL_TYPES_H_INCLUDED_ */
