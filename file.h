@@ -84,7 +84,7 @@ fputlw(uint16_t value, FILE* fileHandle);
 extern size_t
 fgetsz(char* destination, size_t maxLength, FILE* fileHandle);
 
-/* Retrieve a zero terminated string from a file */
+/* Retrieve file contents as a string */
 extern string*
 fgetstr(FILE* fileHandle);
 
