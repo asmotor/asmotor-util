@@ -45,18 +45,18 @@ typedef struct {
 
 extern string*
 #if defined(_DEBUG)
-str_CreateLengthDebug(const char* data, ssize_t length, const char* file, int lineNumber);
+str_CreateLengthDebug(const char* data, size_t length, const char* file, int lineNumber);
 #define str_CreateLength(data, length) str_CreateLengthDebug(data, length, __FILE__, __LINE__)
 #else
-str_CreateLength(const char* data, ssize_t length);
+str_CreateLength(const char* data, size_t length);
 #endif
 
 extern string*
 #if defined(_DEBUG)
-str_CreateStreamDebug(char (*nextChar)(void), ssize_t length, const char* filename, int lineNumber);
+str_CreateStreamDebug(char (*nextChar)(void), size_t length, const char* filename, int lineNumber);
 #define str_CreateStream(nextChar, length) str_CreateStreamDebug(nextChar, length, __FILE__, __LINE__)
 #else
-str_CreateStream(char (*nextChar)(void), ssize_t length);
+str_CreateStream(char (*nextChar)(void), size_t length);
 #endif
 
 extern string*
@@ -161,10 +161,10 @@ str_NotEqual(const string* str1, const string* str2) {
 	return !str_Equal(str1, str2);
 }
 
-INLINE ssize_t
+INLINE size_t
 str_Count(const string* str, char ch) {
-	ssize_t count = 0;
-	for (ssize_t i = 0; i < str->length; ++i) {
+	size_t count = 0;
+	for (size_t i = 0; i < str->length; ++i) {
 		if (str->data[i] == ch)
 			count += 1;
 	}
@@ -178,7 +178,7 @@ str_Copy(const string* str) {
 	return (string*) str;
 }
 
-INLINE ssize_t
+INLINE size_t
 str_Length(const string* str) {
 	return str->length;
 }
@@ -211,7 +211,7 @@ str_Move(string** dest, string** src) {
 }
 
 extern uint32_t
-str_JenkinsHashLength(const void* str, ssize_t length);
+str_JenkinsHashLength(const void* str, size_t length);
 
 INLINE uint32_t
 str_JenkinsHash(const string* str) {

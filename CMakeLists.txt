@@ -17,6 +17,8 @@ add_library(util
     str.h
     strcoll.c
     strcoll.h
+    stream.c
+    stream.h
     strbuf.c
     strbuf.h
     strings.c

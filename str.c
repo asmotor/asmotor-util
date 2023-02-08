@@ -72,7 +72,7 @@ str_Alloc(ssize_t length) {
 
 string*
 #if defined(_DEBUG)
-str_CreateLengthDebug(const char* data, ssize_t length, const char* filename, int lineNumber) {
+str_CreateLengthDebug(const char* data, size_t length, const char* filename, int lineNumber) {
 	string* str = str_AllocDebug(length, filename, lineNumber);
 #else
 str_CreateLength(const char* data, ssize_t length) {
@@ -87,13 +87,13 @@ str_CreateLength(const char* data, ssize_t length) {
 
 string*
 #if defined(_DEBUG)
-str_CreateStreamDebug(char (*nextChar)(void), ssize_t length, const char* filename, int lineNumber) {
+str_CreateStreamDebug(char (*nextChar)(void), size_t length, const char* filename, int lineNumber) {
 	string* str = str_AllocDebug(length, filename, lineNumber);
 #else
 str_CreateStream(char (*nextChar)(void), ssize_t length) {
 	string* str = str_Alloc(length);
 #endif
-	for (ssize_t i = 0; i < length; ++i) {
+	for (size_t i = 0; i < length; ++i) {
 		str_Set(str, i, nextChar());
 	}
 	str->data[length] = 0;
@@ -186,7 +186,7 @@ str_Slice(const string* str1, ssize_t index, ssize_t length) {
 	if (index >= (ssize_t) str_Length(str1))
 		return str_Empty();
 
-	if (index + length > str_Length(str1))
+	if (index + length > (ssize_t) str_Length(str1))
 		length = str_Length(str1) - index;
 
 #if defined(_DEBUG)
@@ -214,12 +214,12 @@ str_Equal(const string* str1, const string* str2) {
 	if (str1 == NULL || str2 == NULL)
 		return false;
 		
-	ssize_t length1 = str_Length(str1);
+	size_t length1 = str_Length(str1);
 
 	if (length1 != str_Length(str2))
 		return false;
 
-	for (ssize_t i = 0; i < length1; ++i) {
+	for (size_t i = 0; i < length1; ++i) {
 		if (str_CharAt(str1, i) != str_CharAt(str2, i))
 			return false;
 	}
@@ -359,10 +359,10 @@ str_Align(string* str, int32_t alignment) {
 }
 
 extern uint32_t
-str_JenkinsHashLength(const void* str, ssize_t length) {
+str_JenkinsHashLength(const void* str, size_t length) {
 	uint8_t* key = (uint8_t *) str;
 	uint32_t hash = 0;
-	for (ssize_t i = 0; i < length; ++i) {
+	for (size_t i = 0; i < length; ++i) {
 		hash += key[i++];
 		hash += hash << 10;
 		hash ^= hash >> 6;
