@@ -83,6 +83,8 @@ strvec_SetAt(vec_t* vec, size_t index, string* element) {
 
 // String map functions
 
+typedef map_t strmap_t;
+
 extern map_t*
 #if defined(_DEBUG)
 strmap_CreateDebug(free_t valueFree, const char* filename, int lineNumber);
