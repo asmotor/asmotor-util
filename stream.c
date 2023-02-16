@@ -54,10 +54,12 @@ stream_Free(stream_t* stream) {
 	if (stream == NULL)
 		return;
 		
-	if (stream->file != NULL)
+	if (stream->file != NULL) {
 		fclose(stream->file);
+	} else if (stream->buffer != NULL) {
+		str_Free(stream->buffer);
+	}
 
-	str_Free(stream->buffer);
 	mem_Free(stream);
 }
 

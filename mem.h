@@ -23,7 +23,36 @@
 
 #include "util.h"
 
-#if defined(_DEBUG)
+#if defined(TARGET_FOENIX)
+INLINE void*
+mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
+	return malloc(size);
+}
+
+INLINE void*
+mem_ReallocImpl(void* memory, size_t size, const char* filename, int lineNumber) {
+	return realloc(memory, size);
+}
+
+INLINE void*
+mem_Alloc(size_t size) {
+	return malloc(size);
+}
+
+INLINE void*
+mem_Realloc(void* memory, size_t size) {
+	return realloc(memory, size);
+}
+
+INLINE void
+mem_Free(void* memory) {
+	free(memory);
+}
+
+INLINE void
+mem_ShowLeaks(void) {
+}
+#elif defined(_DEBUG)
 extern void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber);
 
