@@ -42,8 +42,11 @@ typedef struct MemoryChunk {
 #endif
 } SMemoryChunk;
 
+#if !defined(ASMOTOR_INLINE_MEMORY)
 static SMemoryChunk* g_memoryList = NULL;
+#endif
 
+#if !defined(ASMOTOR_INLINE_MEMORY)
 static void*
 #if defined(_DEBUG)
 CheckMemPointer(SMemoryChunk* chunk, size_t size, const char* filename, int lineNumber) {
@@ -64,8 +67,9 @@ checkMemPointer(SMemoryChunk* chunk, size_t size) {
 
 	return (char*) chunk + HEADERSIZE;
 }
+#endif
 
-#if defined(_DEBUG)
+#if defined(_DEBUG) && !defined(ASMOTOR_INLINE_MEMORY)
 void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	assert (size != 0);
@@ -80,7 +84,7 @@ mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	}
 	return mem;
 }
-#else
+#elif !defined(ASMOTOR_INLINE_MEMORY)
 
 void*
 mem_Alloc(size_t size) {
@@ -90,6 +94,7 @@ mem_Alloc(size_t size) {
 
 #endif
 
+#if !defined(ASMOTOR_INLINE_MEMORY)
 void*
 #if defined(_DEBUG)
 mem_ReallocImpl(void* memory, size_t size, const char* filename, int lineNumber) {
@@ -116,7 +121,10 @@ mem_Realloc(void* memory, size_t size) {
 #endif
 	}
 }
+#endif
 
+
+#if !defined(ASMOTOR_INLINE_MEMORY)
 void
 mem_Free(void* memory) {
 	if (memory != NULL) {
@@ -130,6 +138,7 @@ mem_Free(void* memory) {
 		free(chunk);
 	}
 }
+#endif
 
 
 void
@@ -164,6 +173,7 @@ mem_HexDump(const uint8_t* data, size_t count) {
 }
 
 
+#if !defined(ASMOTOR_INLINE_MEMORY)
 void
 mem_ShowLeaks(void) {
 #if defined(_DEBUG)
@@ -174,3 +184,4 @@ mem_ShowLeaks(void) {
 	}
 #endif
 }
+#endif

@@ -23,7 +23,7 @@
 
 #include "util.h"
 
-#if defined(TARGET_FOENIX)
+#if defined(ASMOTOR_INLINE_MEMORY)
 INLINE void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	return malloc(size);
