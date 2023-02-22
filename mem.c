@@ -42,11 +42,24 @@ typedef struct MemoryChunk {
 #endif
 } SMemoryChunk;
 
-#if !defined(ASMOTOR_INLINE_MEMORY)
+#if defined(ASMOTOR_FAKE_ALLOC)
+uint32_t g_memory[1024*1024/4];
+uint8_t* g_fakeMalloc = (uint8_t*) g_memory;
+
+extern void*
+mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
+	void* r = g_fakeMalloc;
+	g_fakeMalloc += (size + 3) & -4;
+	return r;
+}
+
+#endif
+
+#if !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 static SMemoryChunk* g_memoryList = NULL;
 #endif
 
-#if !defined(ASMOTOR_INLINE_MEMORY)
+#if !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 static void*
 #if defined(_DEBUG)
 CheckMemPointer(SMemoryChunk* chunk, size_t size, const char* filename, int lineNumber) {
@@ -69,7 +82,7 @@ checkMemPointer(SMemoryChunk* chunk, size_t size) {
 }
 #endif
 
-#if defined(_DEBUG) && !defined(ASMOTOR_INLINE_MEMORY)
+#if defined(_DEBUG) && !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	assert (size != 0);
@@ -84,7 +97,7 @@ mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	}
 	return mem;
 }
-#elif !defined(ASMOTOR_INLINE_MEMORY)
+#elif !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 
 void*
 mem_Alloc(size_t size) {
@@ -94,7 +107,7 @@ mem_Alloc(size_t size) {
 
 #endif
 
-#if !defined(ASMOTOR_INLINE_MEMORY)
+#if !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 void*
 #if defined(_DEBUG)
 mem_ReallocImpl(void* memory, size_t size, const char* filename, int lineNumber) {
@@ -124,7 +137,7 @@ mem_Realloc(void* memory, size_t size) {
 #endif
 
 
-#if !defined(ASMOTOR_INLINE_MEMORY)
+#if !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 void
 mem_Free(void* memory) {
 	if (memory != NULL) {
@@ -173,7 +186,7 @@ mem_HexDump(const uint8_t* data, size_t count) {
 }
 
 
-#if !defined(ASMOTOR_INLINE_MEMORY)
+#if !defined(ASMOTOR_INLINE_MEMORY) && !defined(ASMOTOR_FAKE_ALLOC)
 void
 mem_ShowLeaks(void) {
 #if defined(_DEBUG)

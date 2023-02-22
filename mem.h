@@ -20,10 +20,40 @@
 #define UTIL_MEM_H_INCLUDED_
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "util.h"
 
-#if defined(ASMOTOR_INLINE_MEMORY)
+#if defined(ASMOTOR_FAKE_ALLOC)
+extern void*
+mem_AllocImpl(size_t size, const char* filename, int lineNumber);
+
+INLINE void*
+mem_ReallocImpl(void* memory, size_t size, const char* filename, int lineNumber) {
+	void* d = mem_AllocImpl(size, filename, lineNumber);
+	if (memory != NULL)
+		memcpy(d, memory, size);
+	return d;
+}
+
+INLINE void*
+mem_Alloc(size_t size) {
+	return mem_AllocImpl(size, NULL, 0);
+}
+
+INLINE void*
+mem_Realloc(void* memory, size_t size) {
+	return mem_ReallocImpl(memory, size, NULL, 0);
+}
+
+INLINE void
+mem_Free(void* memory) {
+}
+
+INLINE void
+mem_ShowLeaks(void) {
+}
+#elif defined(ASMOTOR_INLINE_MEMORY)
 INLINE void*
 mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	return malloc(size);
