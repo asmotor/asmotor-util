@@ -25,8 +25,10 @@
 #include "str.h"
 #include "set.h"
 
+#ifndef IN_VEC_C_
 struct Vector;
 typedef struct Vector vec_t;
+#endif
 
 extern vec_t* 
 #if defined(_DEBUG)

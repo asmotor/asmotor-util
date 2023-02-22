@@ -31,7 +31,6 @@ typedef struct Map {
 
 #include "map.h"
 
-
 // Internal structures
 
 typedef struct {

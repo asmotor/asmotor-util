@@ -21,9 +21,10 @@
 
 #include "set.h"
 
+#ifndef IN_MAP_C_
 struct Map;
 typedef struct Map map_t;
-
+#endif
 
 typedef void (*map_foreach_t)(intptr_t key, intptr_t value, intptr_t data);
 
