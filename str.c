@@ -75,7 +75,7 @@ string*
 str_CreateLengthDebug(const char* data, size_t length, const char* filename, int lineNumber) {
 	string* str = str_AllocDebug(length, filename, lineNumber);
 #else
-str_CreateLength(const char* data, ssize_t length) {
+str_CreateLength(const char* data, size_t length) {
 	string* str = str_Alloc(length);
 #endif
 	if (data != NULL) {
@@ -90,7 +90,7 @@ string*
 str_CreateStreamDebug(char (*nextChar)(void), size_t length, const char* filename, int lineNumber) {
 	string* str = str_AllocDebug(length, filename, lineNumber);
 #else
-str_CreateStream(char (*nextChar)(void), ssize_t length) {
+str_CreateStream(char (*nextChar)(void), size_t length) {
 	string* str = str_Alloc(length);
 #endif
 	for (size_t i = 0; i < length; ++i) {
@@ -219,12 +219,7 @@ str_Equal(const string* str1, const string* str2) {
 	if (length1 != str_Length(str2))
 		return false;
 
-	for (size_t i = 0; i < length1; ++i) {
-		if (str_CharAt(str1, i) != str_CharAt(str2, i))
-			return false;
-	}
-
-	return true;
+	return memcmp(str_String(str1), str_String(str2), length1) == 0;
 }
 
 int

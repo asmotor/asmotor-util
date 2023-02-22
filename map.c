@@ -66,13 +66,6 @@ keyvalueFree(intptr_t userData, intptr_t element) {
 	mem_Free(kv);
 }
 
-static bool
-keyPredicate(intptr_t userData, intptr_t key, intptr_t element) {
-	map_t* map = (map_t*) userData;
-	keyvalue_t* kv = (keyvalue_t*) element;
-	return map->keyEquals(map->userData, kv->key, key);
-}
-
 static void
 forEachSetElement(intptr_t element, intptr_t data) {
 	setcallbackdata_t* mapData = (setcallbackdata_t*) data;
@@ -125,8 +118,11 @@ map_Remove(map_t* map, intptr_t key) {
 
 extern bool
 map_Value(map_t* map, intptr_t key, intptr_t* value) {
+	keyvalue_t kv;
+	kv.key = key;
+	kv.value = 0;
 	intptr_t element;
-	if (set_Find(map->set, keyPredicate, key, &element)) {
+	if (set_Value(map->set, (intptr_t) &kv, &element)) {
 		keyvalue_t* kv = (keyvalue_t*) element;
 		*value = kv->value;
 		return true;
@@ -136,8 +132,10 @@ map_Value(map_t* map, intptr_t key, intptr_t* value) {
 
 extern bool
 map_HasKey(map_t* map, intptr_t key) {
-	intptr_t element;
-	return set_Find(map->set, keyPredicate, key, &element);
+	keyvalue_t kv;
+	kv.key = key;
+	kv.value = 0;
+	return set_Exists(map->set, (intptr_t) &kv);
 }
 
 extern void

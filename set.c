@@ -65,30 +65,10 @@ set_Create(equals_t equals, hash_t hash, free_t free) {
 	return set;
 }
 
-static bool
-privateExists(set_t* set, SListEntry* list, intptr_t element) {
-	assert(set != NULL && list != NULL);
-
-	if (list->totalElements > 0 && list->elements != NULL) {
-		for (uint32_t i = 0; i < list->totalElements; ++i) {
-			if (set->equals(set->userData, list->elements[i], element))
-				return true;
-		}
-	}
-	return false;
-}
-
 static SListEntry*
 privateListForElement(set_t* set, intptr_t element) {
 	assert(set != NULL);
 	return &set->lists[set->hash(set->userData, element) % SET_HASH_SIZE];
-}
-
-extern bool
-set_Exists(set_t* set, intptr_t element) {
-	assert(set != NULL);
-	SListEntry* list = privateListForElement(set, element);
-	return privateExists(set, list, element);
 }
 
 extern bool
@@ -104,6 +84,28 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
 		}
 	}
 	return false;
+}
+
+extern bool
+set_Value(set_t* set, intptr_t element, intptr_t* value) {
+	assert(set != NULL);
+	SListEntry* list = privateListForElement(set, element);
+
+	if (list->totalElements > 0 && list->elements != NULL) {
+		for (uint32_t i = 0; i < list->totalElements; ++i) {
+			if (set->equals(set->userData, list->elements[i], element)) {
+				*value = list->elements[i];
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+extern bool
+set_Exists(set_t* set, intptr_t element) {
+	intptr_t value;
+	return set_Value(set, element, &value);
 }
 
 extern void

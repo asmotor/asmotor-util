@@ -101,7 +101,7 @@ strmap_Value(map_t* map, const string* key, intptr_t* value) {
 INLINE void
 strmap_Insert(map_t* map, const string* key, intptr_t value) {
 	intptr_t v2 = 0;
-	if (map_Value(map, (intptr_t) key, &value) && value == v2)
+	if (map_Value(map, (intptr_t) key, &v2) && value == v2)
 		return;
 
 	map_Insert(map, (intptr_t) str_Copy(key), value);

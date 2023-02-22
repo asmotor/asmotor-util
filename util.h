@@ -36,6 +36,7 @@
 #	define INLINE static inline
 #	define NORETURN(x) x __noreturn_function
 #else
+#	error "Unknown"
 #	define INLINE static
 #	define NORETURN(x) x
 #endif

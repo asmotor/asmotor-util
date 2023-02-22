@@ -47,6 +47,9 @@ set_Exists(set_t* set, intptr_t element);
 extern bool
 set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* value);
 
+extern bool
+set_Value(set_t* set, intptr_t element, intptr_t* value);
+
 extern void
 set_Insert(set_t* set, intptr_t element);
 
