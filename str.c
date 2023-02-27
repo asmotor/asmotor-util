@@ -206,6 +206,16 @@ str_Find(const string* haystack, const string* needle) {
 	}
 }
 
+uint32_t
+str_FindChar(const string* haystack, char needle) {
+	char* p = strchr(str_String(haystack), needle);
+	if (p != NULL) {
+		return (uint32_t)(p - str_String(haystack));
+	} else {
+		return UINT32_MAX;
+	}
+}
+
 bool
 str_Equal(const string* str1, const string* str2) {
 	if (str1 == str2)

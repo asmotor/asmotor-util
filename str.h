@@ -119,6 +119,9 @@ str_Slice(const string* str1, ssize_t index, ssize_t length);
 extern uint32_t
 str_Find(const string* haystack, const string* needle);
 
+extern uint32_t
+str_FindChar(const string* haystack, char needle);
+
 extern bool
 str_Equal(const string* str1, const string* str2);
 
