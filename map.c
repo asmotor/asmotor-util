@@ -101,9 +101,9 @@ map_CreateSubMap(map_t* map) {
 	subMap->keyHash = map->keyHash;
 	subMap->keyFree = map->keyFree;
 	subMap->valueFree = map->valueFree;
-	set_SetUserData(map->set, (intptr_t) map);
+	set_SetUserData(subMap->set, (intptr_t) subMap);
 
-	return map;
+	return subMap;
 }
 
 extern void

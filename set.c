@@ -92,7 +92,7 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
 		}
 	}
 
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		if (set_Find((set_t *) vec_ElementAt(set->subSets, i), predicate, predicateData, value))
 			return true;
 	}
@@ -115,7 +115,7 @@ internal_Value(set_t* set, uint32_t hash, intptr_t element, intptr_t* value) {
 		}
 	}
 
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		if (internal_Value((set_t *) vec_ElementAt(set->subSets, i), hash, element, value))
 			return true;
 	}
@@ -181,7 +181,7 @@ internal_Remove(set_t* set, uint32_t hash, intptr_t element) {
 		}
 	}
 
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		if (internal_Remove((set_t*) vec_ElementAt(set->subSets, i), hash, element))
 			return true;
 	}
@@ -210,7 +210,7 @@ set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data),
 		}
 	}
 
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		set_ForEachElement((set_t*) vec_ElementAt(set->subSets, i), forEach, data);
 	}
 }
@@ -284,7 +284,7 @@ internal_ToArray(set_t* set, intptr_t* array, copy_t copy) {
 		}
 	}
 	
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		internal_ToArray((set_t*) vec_ElementAt(set->subSets, i), &array[arrayIndex], copy);
 	}
 }
@@ -306,7 +306,7 @@ set_SetUserData(set_t* set, intptr_t data) {
 	assert(set != NULL);
 	set->userData = data;
 
-	for (uint32_t i; i < vec_Count(set->subSets); ++i) {
+	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		set_SetUserData((set_t*) vec_ElementAt(set->subSets, i), data);
 	}
 
