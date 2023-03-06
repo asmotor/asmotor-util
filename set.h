@@ -23,23 +23,21 @@
 #include <stdint.h>
 
 #include "mem.h"
+#include "protos.h"
 #include "str.h"
 
 #if !defined(IN_SET_C_)
 struct Set;
 typedef struct Set set_t;
-
-typedef bool (*equals_t)(intptr_t userData, intptr_t element1, intptr_t element2);
-typedef uint32_t (*hash_t)(intptr_t userData, intptr_t element);
-typedef void (*free_t)(intptr_t userData, intptr_t element);
 #endif
-
-typedef intptr_t (*copy_t)(intptr_t userData, intptr_t element);
 
 typedef bool (*predicate_t)(intptr_t userData, intptr_t predicateData, intptr_t element);
 
 extern set_t* 
 set_Create(equals_t equals, hash_t hash, free_t free);
+
+extern void
+set_Clear(set_t* set);
 
 extern bool
 set_Exists(set_t* set, intptr_t element);
@@ -74,5 +72,7 @@ set_SetUserData(set_t* set, intptr_t data);
 extern intptr_t
 set_GetUserData(set_t* set);
 
+extern set_t*
+set_CreateSubSet(set_t* set);
 
 #endif

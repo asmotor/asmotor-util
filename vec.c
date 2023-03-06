@@ -84,6 +84,18 @@ vec_Count(vec_t* vec) {
 
 
 extern void
+vec_Clear(vec_t* vec) {
+	assert(vec != NULL);
+	assert(!vec_Frozen(vec));
+
+	for (uint32_t i = 0; i < vec->totalElements; ++i) {
+		vec->free(vec->userData, vec->elements[i]);
+	}
+	vec->totalElements = 0;
+}
+
+
+extern void
 vec_Free(vec_t* vec) {
 	assert(vec != NULL);
 

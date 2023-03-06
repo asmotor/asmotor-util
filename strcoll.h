@@ -85,7 +85,7 @@ strvec_SetAt(vec_t* vec, size_t index, string* element) {
 
 typedef map_t strmap_t;
 
-extern map_t*
+extern strmap_t*
 #if defined(_DEBUG)
 strmap_CreateDebug(free_t valueFree, const char* filename, int lineNumber);
 #define strmap_Create(valueFree) strmap_CreateDebug(valueFree, __FILE__, __LINE__)
@@ -93,13 +93,23 @@ strmap_CreateDebug(free_t valueFree, const char* filename, int lineNumber);
 strmap_Create(free_t valueFree);
 #endif
 
+INLINE strmap_t*
+strmap_CreateSubMap(strmap_t* map) {
+	return map_CreateSubMap(map);
+}
+
+INLINE void
+strmap_Clear(strmap_t* map) {
+	map_Clear(map);
+}
+
 INLINE bool
-strmap_Value(map_t* map, const string* key, intptr_t* value) {
+strmap_Value(strmap_t* map, const string* key, intptr_t* value) {
 	return map_Value(map, (intptr_t) key, value);
 }
 
 INLINE void
-strmap_Insert(map_t* map, const string* key, intptr_t value) {
+strmap_Insert(strmap_t* map, const string* key, intptr_t value) {
 	intptr_t v2 = 0;
 	if (map_Value(map, (intptr_t) key, &v2) && value == v2)
 		return;
@@ -108,12 +118,12 @@ strmap_Insert(map_t* map, const string* key, intptr_t value) {
 }
 
 INLINE void
-strmap_Remove(map_t* map, const string* key) {
+strmap_Remove(strmap_t* map, const string* key) {
 	map_Remove(map, (intptr_t) key);
 }
 
 INLINE bool
-strmap_HasKey(map_t* map, const string* key) {
+strmap_HasKey(strmap_t* map, const string* key) {
 	return map_HasKey(map, (intptr_t) key);
 }
 

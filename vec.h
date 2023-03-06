@@ -22,8 +22,8 @@
 #include <stdint.h>
 
 #include "mem.h"
+#include "protos.h"
 #include "str.h"
-#include "set.h"
 
 #ifndef IN_VEC_C_
 struct Vector;
@@ -51,6 +51,9 @@ vec_Create(free_t free) {
 
 extern void
 vec_PushBack(vec_t* vec, intptr_t element);
+
+extern void
+vec_Clear(vec_t* vec);
 
 extern void
 vec_Free(vec_t* vec);

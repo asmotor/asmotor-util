@@ -37,6 +37,12 @@ map_CreateDebug(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t value
 map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree);
 #endif
 
+extern map_t*
+map_CreateSubMap(map_t* map);
+
+extern void
+map_Clear(map_t* map);
+
 extern void
 map_Free(map_t* map);
 

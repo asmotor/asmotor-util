@@ -93,6 +93,24 @@ map_Create(equals_t keyEquals, hash_t keyHash, free_t keyFree, free_t valueFree)
 	return map;
 }
 
+extern map_t*
+map_CreateSubMap(map_t* map) {
+	map_t* subMap = (map_t*) mem_Alloc(sizeof(map_t));
+	subMap->set = set_CreateSubSet(map->set);
+	subMap->keyEquals = map->keyEquals;
+	subMap->keyHash = map->keyHash;
+	subMap->keyFree = map->keyFree;
+	subMap->valueFree = map->valueFree;
+	set_SetUserData(map->set, (intptr_t) map);
+
+	return map;
+}
+
+extern void
+map_Clear(map_t* map) {
+	set_Clear(map->set);
+}
+
 extern void
 map_Free(map_t* map) {
 	set_Free(map->set);
