@@ -62,16 +62,16 @@ extern size_t
 vec_Count(vec_t* vec);
 
 extern void
-vec_RemoveAt(vec_t* vec, ssize_t index);
+vec_RemoveAt(vec_t* vec, size_t index);
 
 extern void
-vec_InsertAt(vec_t* vec, ssize_t index, intptr_t element);
+vec_InsertAt(vec_t* vec, size_t index, intptr_t element);
 
 extern intptr_t
-vec_ElementAt(vec_t* vec, ssize_t index);
+vec_ElementAt(vec_t* vec, size_t index);
 
 extern intptr_t
-vec_SetAt(vec_t* vec, ssize_t index, intptr_t element);
+vec_SetAt(vec_t* vec, size_t index, intptr_t element);
 
 extern vec_t*
 vec_Freeze(vec_t* vec);

@@ -21,7 +21,6 @@ add_library(util
     stream.h
     strbuf.c
     strbuf.h
-    strings.c
     types.h
     vec.c
     vec.h)

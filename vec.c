@@ -114,32 +114,32 @@ vec_Free(vec_t* vec) {
 
 
 extern void
-vec_RemoveAt(vec_t* vec, ssize_t index) {
+vec_RemoveAt(vec_t* vec, size_t index) {
 	assert (vec != NULL);
-	assert (index >= 0 && index < vec->totalElements);
+	assert (index < vec->totalElements);
 	assert (!vec_Frozen(vec));
 
 	vec->free(vec->userData, vec->elements[index]);
 	vec->totalElements -= 1;
-	if (index < (ssize_t) vec->totalElements) {
+	if (index < vec->totalElements) {
 		memmove(&vec->elements[index], &vec->elements[index + 1], sizeof(intptr_t) * (vec->totalElements - index));
 	}
 }
 
 
 extern intptr_t
-vec_ElementAt(vec_t* vec, ssize_t index) {
+vec_ElementAt(vec_t* vec, size_t index) {
 	assert (vec != NULL);
-	assert (index >= 0 && index < vec->totalElements);
+	assert (index < vec->totalElements);
 	return vec->elements[index];
 }
 
 
 extern intptr_t
-vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
+vec_SetAt(vec_t* vec, size_t index, intptr_t element) {
 	assert (vec != NULL);
 	assert (!vec_Frozen(vec));
-	assert(index >= 0 && index < vec->totalElements);
+	assert (index < vec->totalElements);
 
 	intptr_t r = vec->elements[index];
 	if (element != vec->elements[index]) {
@@ -151,15 +151,15 @@ vec_SetAt(vec_t* vec, ssize_t index, intptr_t element) {
 
 
 extern void
-vec_InsertAt(vec_t* vec, ssize_t index, intptr_t element) {
+vec_InsertAt(vec_t* vec, size_t index, intptr_t element) {
 	assert (vec != NULL);
-	assert (index >= 0 && index <= vec->totalElements);
+	assert (index <= vec->totalElements);
 	assert (!vec_Frozen(vec));
 
 	if (vec->totalElements == vec->allocatedElements)
 		growVector(vec);
 
-	if (index < (ssize_t) vec->totalElements)
+	if (index < vec->totalElements)
 		memmove(&vec->elements[index + 1], &vec->elements[index], sizeof(intptr_t) * (vec->totalElements - index));
 
 	vec->elements[index] = element;
