@@ -154,6 +154,14 @@ fexists(const char* filename) {
 	return false;
 }
 
+void
+ffill(uint8_t value, size_t count, FILE* fileHandle) {
+	while (count--) {
+		fputc(value, fileHandle);
+	}
+}
+
+
 string*
 #if defined(_DEBUG)
 fcanonicalizePathDebug(string* path, const char* filename, int lineNumber) {

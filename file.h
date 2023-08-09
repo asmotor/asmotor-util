@@ -92,6 +92,10 @@ fgetstr(FILE* fileHandle);
 extern void
 fputsz(const char* str, FILE* fileHandle);
 
+/* Write a number of bytes to a file */
+extern void
+ffill(uint8_t value, size_t count, FILE* fileHandle);
+
 extern string*
 #if defined(_DEBUG)
 fcanonicalizePathDebug(string* path, const char* filename, int lineNumber);
