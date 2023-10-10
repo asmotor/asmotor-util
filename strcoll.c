@@ -42,8 +42,8 @@ stringCopy(intptr_t userData, intptr_t element) {
 // String set functions
 
 extern set_t*
-strset_Create() {
-	return set_Create(stringEquals, stringHash, stringFree);
+strset_Create(void) {
+    return set_Create(stringEquals, stringHash, stringFree);
 }
 
 

@@ -138,7 +138,7 @@ str_CreateFormat(const char* format, ...) {
 }
 
 string*
-str_Empty() {
+str_Empty(void) {
 	return str_Copy((string*) &g_emptyString);
 }
 

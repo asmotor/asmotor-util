@@ -26,7 +26,7 @@
 // String set functions
 
 extern set_t*
-strset_Create();
+strset_Create(void);
 
 INLINE bool
 strset_Exists(set_t* set, const string* element) {
