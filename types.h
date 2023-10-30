@@ -28,7 +28,7 @@
 #endif
 
 #ifdef __CALYPSI_TARGET_68000__
-typedef uint32_t ssize_t;
+typedef int32_t ssize_t;
 # endif
 
 

@@ -44,6 +44,8 @@
 #if defined(_MSC_VER)
 #   include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
+#else
+#	include <unistd.h>
 #endif
 
 #if (defined(__VBCC__) || defined(__GNUC__)) && (!defined(__MINGW32__))

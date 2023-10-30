@@ -221,6 +221,14 @@ str_JenkinsHash(const string* str) {
 	return str_JenkinsHashLength(str_String(str), str_Length(str));
 }
 
+extern uint32_t
+str_JenkinsHashLengthI(const void* str, size_t length);
+
+INLINE uint32_t
+str_JenkinsHashI(const string* str) {
+	return str_JenkinsHashLengthI(str_String(str), str_Length(str));
+}
+
 extern string*
 #if defined(_DEBUG)
 str_ReadFileDebug(FILE* fileHandle, size_t count, const char* file, int lineNumber);

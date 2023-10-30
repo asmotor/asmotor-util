@@ -364,11 +364,27 @@ str_Align(string* str, int32_t alignment) {
 }
 
 extern uint32_t
-str_JenkinsHashLength(const void* str, size_t length) {
+str_JenkinsHashLengthI(const void* str, size_t length) {
 	uint8_t* key = (uint8_t *) str;
 	uint32_t hash = 0;
 	for (size_t i = 0; i < length; ++i) {
 		hash += key[i++];
+		hash += hash << 10;
+		hash ^= hash >> 6;
+	}
+	hash += hash << 3;
+	hash ^= hash >> 11;
+	hash += hash << 15;
+
+	return hash;
+}
+
+extern uint32_t
+str_JenkinsHashLength(const void* str, size_t length) {
+	uint8_t* key = (uint8_t *) str;
+	uint32_t hash = 0;
+	for (size_t i = 0; i < length; ++i) {
+		hash += toupper(key[i++]);
 		hash += hash << 10;
 		hash ^= hash >> 6;
 	}

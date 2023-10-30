@@ -15,12 +15,14 @@ add_library(util
     set.h
     str.c
     str.h
+    strbuf.c
+    strbuf.h
     strcoll.c
     strcoll.h
     stream.c
     stream.h
-    strbuf.c
-    strbuf.h
+    strpmap.c
+    strpmap.h
     types.h
     vec.c
     vec.h)
