@@ -85,8 +85,9 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
 	for (uint32_t i = 0; i < SET_HASH_SIZE; ++i) {
 		SListEntry* list = &set->lists[i];
 		for (uint32_t j = 0; j < list->totalElements; ++j) {
-			if (predicate(set->userData, predicateData, list->elements[j])) {
-				*value = list->elements[j];
+			if (predicate(set, set->userData, predicateData, list->elements[j])) {
+				if (value != NULL)
+					*value = list->elements[j];
 				return true;
 			}
 		}
@@ -198,14 +199,14 @@ set_Remove(set_t* set, intptr_t element) {
 
 
 extern void
-set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data), intptr_t data) {
+set_ForEachElement(set_t* set, void (*forEach)(set_t* set, intptr_t element, intptr_t data), intptr_t data) {
 	assert(set != NULL && forEach != NULL);
 
 	for (uint32_t i = 0; i < SET_HASH_SIZE; ++i) {
 		SListEntry* list = &set->lists[i];
 		if (list->elements != NULL) {
 			for (uint32_t j = 0; j < list->totalElements; ++j) {
-				forEach(list->elements[j], data);
+				forEach(set, list->elements[j], data);
 			}
 		}
 	}
@@ -216,7 +217,7 @@ set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data),
 }
 
 static void
-increment(intptr_t element, intptr_t data) {
+increment(set_t* set, intptr_t element, intptr_t data) {
 	*(size_t*)data += 1;
 }
 

@@ -8,7 +8,7 @@ struct StringPointerMap;
 typedef struct StringPointerMap strpmap_t;
 #endif
 
-typedef void (*strpmap_foreach_t)(const char* key, intptr_t value, intptr_t data);
+typedef void (*strpmap_foreach_t)(strpmap_t* map, const char* key, intptr_t value, intptr_t data);
 
 
 extern strpmap_t*

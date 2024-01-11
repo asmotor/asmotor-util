@@ -46,9 +46,9 @@ typedef struct {
 } foreach_data_t;
 
 static void 
-map_foreach(intptr_t key, intptr_t value, intptr_t data) {
+map_foreach(map_t* map, intptr_t key, intptr_t value, intptr_t data) {
 	foreach_data_t* d = (foreach_data_t*) data;
-	d->forEach((const char*) key, value, d->data);
+	d->forEach((strpmap_t*) map, (const char*) key, value, d->data);
 }
 
 extern void

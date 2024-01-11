@@ -41,7 +41,12 @@ typedef struct {
 typedef struct {
 	map_foreach_t forEach;
 	intptr_t data;
-} setcallbackdata_t;
+} set_foreach_data_t;
+
+typedef struct {
+	map_predicate_t predicate;
+	intptr_t data;
+} set_find_data_t;
 
 static bool
 keyvalueEquals(intptr_t userData, intptr_t element1, intptr_t element2) {
@@ -66,10 +71,11 @@ keyvalueFree(intptr_t userData, intptr_t element) {
 }
 
 static void
-forEachSetElement(intptr_t element, intptr_t data) {
-	setcallbackdata_t* mapData = (setcallbackdata_t*) data;
+forEachSetElement(set_t* set, intptr_t element, intptr_t data) {
+	map_t* map = (map_t*) set_GetUserData(set);
+	set_foreach_data_t* mapData = (set_foreach_data_t*) data;
 	keyvalue_t* keyValue = (keyvalue_t*) element;
-	mapData->forEach(keyValue->key, keyValue->value, mapData->data);
+	mapData->forEach(map, keyValue->key, keyValue->value, mapData->data);
 }
 
 
@@ -157,11 +163,40 @@ map_HasKey(map_t* map, intptr_t key) {
 
 extern void
 map_ForEachKeyValue(map_t* map, map_foreach_t forEach, intptr_t data) {
-	setcallbackdata_t mapData = { forEach, data };
+	set_foreach_data_t mapData = { forEach, data };
 	set_ForEachElement(map->set, forEachSetElement, (intptr_t) &mapData);
 }
 
 extern ssize_t
 map_Count(map_t* map) {
 	return set_Count(map->set);
+}
+
+
+static bool
+setFindPredicate(set_t* set, intptr_t userData, intptr_t predicateData, intptr_t element) {
+	map_t* map = (map_t*) userData;
+	set_find_data_t* data = (set_find_data_t*) predicateData;
+	keyvalue_t* kv = (keyvalue_t*) element;
+	return data->predicate(map, data->data, kv->key, kv->value);
+}
+
+
+extern bool
+map_Find(map_t* map, map_predicate_t predicate, intptr_t predicateData, intptr_t* key, intptr_t* value) {
+	set_find_data_t data = {
+		predicate,
+		predicateData
+	};
+
+	if (set_Find(map->set, setFindPredicate, (intptr_t) &data, value)) {
+		keyvalue_t* kv = (keyvalue_t*) value;
+		if (key != NULL)
+			*key = kv->key;
+		if (value != NULL)
+			*value = kv->value;
+		return true;
+	}
+
+	return false;
 }

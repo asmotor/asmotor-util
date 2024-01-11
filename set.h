@@ -31,7 +31,7 @@ struct Set;
 typedef struct Set set_t;
 #endif
 
-typedef bool (*predicate_t)(intptr_t userData, intptr_t predicateData, intptr_t element);
+typedef bool (*predicate_t)(set_t* set, intptr_t userData, intptr_t predicateData, intptr_t element);
 
 extern set_t* 
 set_Create(equals_t equals, hash_t hash, free_t free);
@@ -61,7 +61,7 @@ extern ssize_t
 set_Count(set_t* set);
 
 extern void
-set_ForEachElement(set_t* set, void (*forEach)(intptr_t element, intptr_t data), intptr_t data);
+set_ForEachElement(set_t* set, void (*forEach)(set_t* set, intptr_t element, intptr_t data), intptr_t data);
 
 extern intptr_t*
 set_ToArray(set_t* set, copy_t copy, ssize_t* totalElements);

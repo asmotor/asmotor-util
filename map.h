@@ -26,7 +26,8 @@ struct Map;
 typedef struct Map map_t;
 #endif
 
-typedef void (*map_foreach_t)(intptr_t key, intptr_t value, intptr_t data);
+typedef void (*map_foreach_t)(map_t* map, intptr_t key, intptr_t value, intptr_t data);
+typedef bool (*map_predicate_t)(map_t* map, intptr_t predicateData, intptr_t key, intptr_t value);
 
 
 extern map_t*
@@ -63,6 +64,9 @@ map_ForEachKeyValue(map_t* map, map_foreach_t forEach, intptr_t data);
 
 extern ssize_t
 map_Count(map_t* map);
+
+extern bool
+map_Find(map_t* map, map_predicate_t predicate, intptr_t predicateData, intptr_t* key, intptr_t* value);
 
 
 #endif
