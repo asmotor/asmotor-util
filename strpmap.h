@@ -1,7 +1,9 @@
 #pragma once
 
 #include "map.h"
+#include "protos.h"
 #include "types.h"
+#include "util.h"
 
 #ifndef IN_STRPMAP_C_
 struct StringPointerMap;

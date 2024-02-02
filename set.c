@@ -20,11 +20,10 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <stdint.h>
 
+#include "mem.h"
 #include "protos.h"
-#include "str.h"
+#include "types.h"
 #include "vec.h"
 
 #define SET_HASH_SIZE 29

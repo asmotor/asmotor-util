@@ -21,7 +21,10 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 
+#include "types.h" // IWYU pragma: keep
 #include "util.h"
 
 #if defined(_MSC_VER)

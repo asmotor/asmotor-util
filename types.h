@@ -19,17 +19,23 @@
 #ifndef UTIL_TYPES_H_INCLUDED_
 #define UTIL_TYPES_H_INCLUDED_
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdio.h>
+#include <stdint.h> // IWYU pragma: export
+#include <stddef.h> // IWYU pragma: export
+#include <stdbool.h> // IWYU pragma: export
 
 #ifndef NULL
 # define NULL 0L
 #endif
 
-#ifdef __CALYPSI_TARGET_68000__
+#if _POSIX_VERSION < 200809L
+#	if SIZE_MAX==4294967295u
 typedef int32_t ssize_t;
-# endif
+#	elif SIZE_MAX==18446744073709551615ul
+typedef int64_t ssize_t;
+#	else
+#		error "Unknown size_t size"
+#	endif
+#endif
 
 
 #endif /* UTIL_TYPES_H_INCLUDED_ */

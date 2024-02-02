@@ -20,7 +20,6 @@
 #define UTIL_ASMOTOR_H_INCLUDED_
 
 #include <stdlib.h>
-#include "types.h"
 
 #if !defined(NDEBUG) && !defined(_DEBUG)
 #   define _DEBUG

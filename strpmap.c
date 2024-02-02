@@ -1,4 +1,11 @@
+#include <string.h>
+
+#include "map.h"
+#include "protos.h"
+#include "str.h"
 #include "strpmap.h"
+#include "types.h"
+#include "util.h"
 
 static bool
 equals(intptr_t userData, intptr_t element1, intptr_t element2) {

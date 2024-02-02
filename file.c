@@ -16,7 +16,11 @@
 	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdio.h>
+
+#include "types.h"
 #include "file.h"
+#include "str.h"
 #include "strbuf.h"
 
 #if defined(WIN32)

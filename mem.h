@@ -20,7 +20,6 @@
 #define UTIL_MEM_H_INCLUDED_
 
 #include <stdlib.h>
-#include <string.h>
 
 #include "util.h"
 

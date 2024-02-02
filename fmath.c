@@ -18,7 +18,6 @@
 
 #include <math.h>
 
-#include "util.h"
 #include "types.h"
 
 #ifndef PI
