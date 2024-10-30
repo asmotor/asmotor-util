@@ -20,6 +20,7 @@
 #define UTIL_STR_H_INCLUDED_
 
 #include <assert.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "util.h"
