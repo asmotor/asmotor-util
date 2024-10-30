@@ -19,7 +19,10 @@
 #if !defined(UTIL_MAP_H_INCLUDED_)
 #define UTIL_MAP_H_INCLUDED_
 
-#include "set.h"
+#include <stdbool.h>
+#include <stdio.h>
+
+#include "protos.h"
 
 #ifndef IN_MAP_C_
 struct Map;

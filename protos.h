@@ -20,6 +20,7 @@
 #define UTIL_PROTOS_H_INCLUDED_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 
 typedef intptr_t (*copy_t)(intptr_t userData, intptr_t element);

@@ -19,11 +19,12 @@
 #if !defined(UTIL_VEC_H_INCLUDED_)
 #define UTIL_VEC_H_INCLUDED_
 
+#include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
-#include "mem.h"
 #include "protos.h"
-#include "str.h"
+#include "util.h"
 
 #ifndef IN_VEC_C_
 struct Vector;
