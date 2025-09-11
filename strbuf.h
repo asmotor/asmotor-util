@@ -37,6 +37,21 @@ strbuf_Create(void);
 extern void
 strbuf_Free(string_buffer* buffer);
 
+INLINE size_t
+strbuf_Size(string_buffer* buffer) {
+	return buffer->size;
+}
+
+INLINE void
+strbuf_Truncate(string_buffer* buffer, size_t newSize) {
+	buffer->size = newSize;
+}
+
+INLINE char*
+strbuf_Data(string_buffer* buffer) {
+	return buffer->data;
+}
+
 extern string*
 #if defined(_DEBUG)
 strbuf_StringDebug(string_buffer* buffer, const char* filename, int lineNumber);
