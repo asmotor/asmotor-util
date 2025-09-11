@@ -16,6 +16,13 @@
 	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <limits.h>
+
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
+
+
 #include "file.h"
 #include "strbuf.h"
 
