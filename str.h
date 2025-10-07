@@ -240,6 +240,14 @@ str_ReadFile(FILE* fileHandle, size_t count);
 
 extern string*
 #if defined(_DEBUG)
+str_ReadLineFromFileDebug(FILE* fileHandle, const char* file, int lineNumber);
+#define str_ReadLineFromFile(file) str_ReadLineFromFileDebug(file, __FILE__, __LINE__)
+#else
+str_ReadLineFromFile(FILE* fileHandle);
+#endif
+
+extern string*
+#if defined(_DEBUG)
 str_CanonicalizeLineEndingsDebug(string* srcString, const char* file, int lineNumber);
 #define str_CanonicalizeLineEndings(srcString) str_CanonicalizeLineEndingsDebug(srcString, __FILE__, __LINE__);
 #else

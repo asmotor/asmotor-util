@@ -410,6 +410,35 @@ str_ReadFile(FILE* fileHandle, size_t count) {
 
 extern string*
 #if defined(_DEBUG)
+str_ReadLineFromFileDebug(FILE* fileHandle, const char* file, int lineNumber) {
+#else
+str_ReadLineFromFile(FILE* fileHandle) {
+#endif
+	string_buffer* buf = strbuf_Create();
+	
+	int ch = fgetc(fileHandle);
+	if (ch == EOF)
+		return NULL;
+
+	do {
+		if (ch == '\n' || ch == EOF)
+			break;
+		strbuf_AppendChar(buf, ch);
+		ch = fgetc(fileHandle);
+	} while (ch != '\n' && ch != EOF);
+
+#if defined(_DEBUG)
+	string* r = strbuf_StringDebug(buf, file, lineNumber);
+#else
+	string* r = strbuf_String(buf);
+#endif
+	strbuf_Free(buf);
+
+	return r;
+}
+
+extern string*
+#if defined(_DEBUG)
 str_CanonicalizeLineEndingsDebug(string* srcString, const char* filename, int lineNumber) {
 	string* destString = str_AllocDebug(str_Length(srcString) + 1, filename, lineNumber);
 #else
