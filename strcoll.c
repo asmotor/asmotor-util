@@ -1,19 +1,19 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "strcoll.h"
@@ -38,14 +38,12 @@ stringCopy(intptr_t userData, intptr_t element) {
 	return (intptr_t) str_Copy((string*) element);
 }
 
-
 // String set functions
 
 extern set_t*
 strset_Create(void) {
-    return set_Create(stringEquals, stringHash, stringFree);
+	return set_Create(stringEquals, stringHash, stringFree);
 }
-
 
 // String map functions
 
@@ -59,10 +57,9 @@ strmap_Create(free_t valueFree) {
 #endif
 }
 
-
 // String vector functions
 
-extern vec_t* 
+extern vec_t*
 #if defined(_DEBUG)
 strvec_CreateDebug(const char* filename, int lineNumber) {
 	return vec_CreateDebug(stringFree, filename, lineNumber);
@@ -72,12 +69,10 @@ strvec_Create(void) {
 #endif
 }
 
-
-extern vec_t* 
+extern vec_t*
 strvec_CreateLength(size_t size) {
 	return vec_CreateLength(stringFree, size);
 }
-
 
 extern vec_t*
 strvec_Copy(vec_t* vec) {

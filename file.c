@@ -1,19 +1,19 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <limits.h>
@@ -22,25 +22,23 @@
 #define PATH_MAX 1024
 #endif
 
-
 #include "file.h"
 #include "strbuf.h"
 
 #if defined(WIN32)
-#	include <direct.h>
-#	define PATH_SEPARATOR '\\'
-#	define PATH_REPLACE '/'
-#	define getcwd _getcwd
+#include <direct.h>
+#define PATH_SEPARATOR '\\'
+#define PATH_REPLACE   '/'
+#define getcwd         _getcwd
 #else
-#	define PATH_SEPARATOR '/'
-#	define PATH_REPLACE '\\'
+#define PATH_SEPARATOR '/'
+#define PATH_REPLACE   '\\'
 #endif
-
 
 size_t
 fsize(FILE* fileHandle) {
 	fflush(fileHandle);
-	
+
 	off_t currentOffset = ftello(fileHandle);
 	fseeko(fileHandle, 0, SEEK_END);
 
@@ -172,11 +170,11 @@ ffill(uint8_t value, size_t count, FILE* fileHandle) {
 
 string*
 fgetcwd(void) {
-    char buffer[PATH_MAX];
-    if (getcwd(buffer, sizeof(buffer)) != NULL) {
-        return str_Create(buffer);
-    }
-    return NULL;
+	char buffer[PATH_MAX];
+	if (getcwd(buffer, sizeof(buffer)) != NULL) {
+		return str_Create(buffer);
+	}
+	return NULL;
 }
 
 string*
@@ -271,4 +269,3 @@ freplaceFileComponent(string* fullPath, string* fileName) {
 	str_Free(newFullPath);
 	return fixedPath;
 }
-

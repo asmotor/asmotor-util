@@ -1,27 +1,29 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #if !defined(UTIL_STRCOLL_H_INCLUDED_)
 #define UTIL_STRCOLL_H_INCLUDED_
 
+// clang-format off
 #include "set.h"
 #include "vec.h"
 #include "map.h"
+// clang-format on
 
 // String set functions
 
@@ -45,7 +47,6 @@ strset_Remove(set_t* set, const string* element) {
 
 #define strset_Free set_Free
 
-
 // String vector functions
 
 extern vec_t*
@@ -66,7 +67,7 @@ strvec_PushBack(vec_t* vec, string* element) {
 
 INLINE string*
 strvec_StringAt(vec_t* vec, size_t index) {
-	return str_Copy((string *) vec_ElementAt(vec, index));
+	return str_Copy((string*) vec_ElementAt(vec, index));
 }
 
 INLINE void
@@ -74,12 +75,11 @@ strvec_SetAt(vec_t* vec, size_t index, string* element) {
 	vec_SetAt(vec, index, (intptr_t) str_Copy(element));
 }
 
-#define strvec_Freeze vec_Freeze
-#define strvec_Frozen vec_Frozen
-#define strvec_Free vec_Free
-#define strvec_Count vec_Count
+#define strvec_Freeze   vec_Freeze
+#define strvec_Frozen   vec_Frozen
+#define strvec_Free     vec_Free
+#define strvec_Count    vec_Count
 #define strvec_RemoveAt vec_RemoveAt
-
 
 // String map functions
 

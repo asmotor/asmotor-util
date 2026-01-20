@@ -1,30 +1,30 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <assert.h>
-#include <string.h>
-#include <stdarg.h>
 #include <ctype.h>
+#include <stdarg.h>
+#include <string.h>
 
-#include "util.h"
 #include "mem.h"
 #include "str.h"
 #include "strbuf.h"
+#include "util.h"
 
 typedef struct {
 	uint32_t refCount;
@@ -32,9 +32,7 @@ typedef struct {
 	char data[1];
 } empty_string;
 
-static empty_string g_emptyString = {
-	1, 0, ""
-};
+static empty_string g_emptyString = {1, 0, ""};
 
 static char
 createSpace(void) {
@@ -145,7 +143,7 @@ str_Empty(void) {
 void
 str_Free(string* str) {
 	if (str != NULL) {
-		assert (str->refCount != 0);
+		assert(str->refCount != 0);
 
 		if (--str->refCount == 0)
 			mem_Free(str);
@@ -200,7 +198,7 @@ uint32_t
 str_Find(const string* haystack, const string* needle) {
 	char* p = strstr(str_String(haystack), str_String(needle));
 	if (p != NULL) {
-		return (uint32_t)(p - str_String(haystack));
+		return (uint32_t) (p - str_String(haystack));
 	} else {
 		return UINT32_MAX;
 	}
@@ -210,7 +208,7 @@ uint32_t
 str_FindChar(const string* haystack, char needle) {
 	char* p = strchr(str_String(haystack), needle);
 	if (p != NULL) {
-		return (uint32_t)(p - str_String(haystack));
+		return (uint32_t) (p - str_String(haystack));
 	} else {
 		return UINT32_MAX;
 	}
@@ -223,7 +221,7 @@ str_Equal(const string* str1, const string* str2) {
 
 	if (str1 == NULL || str2 == NULL)
 		return false;
-		
+
 	size_t length1 = str_Length(str1);
 
 	if (length1 != str_Length(str2))
@@ -317,11 +315,13 @@ str_TransformReplace(string** str, char (*transform)(char)) {
 	}
 }
 
-INLINE char charToUpper(char ch) {
+INLINE char
+charToUpper(char ch) {
 	return (char) toupper(ch);
 }
 
-INLINE char charToLower(char ch) {
+INLINE char
+charToLower(char ch) {
 	return (char) tolower(ch);
 }
 
@@ -365,7 +365,7 @@ str_Align(string* str, int32_t alignment) {
 
 extern uint32_t
 str_JenkinsHashLengthI(const void* str, size_t length) {
-	uint8_t* key = (uint8_t *) str;
+	uint8_t* key = (uint8_t*) str;
 	uint32_t hash = 0;
 	for (size_t i = 0; i < length; ++i) {
 		hash += key[i++];
@@ -381,7 +381,7 @@ str_JenkinsHashLengthI(const void* str, size_t length) {
 
 extern uint32_t
 str_JenkinsHashLength(const void* str, size_t length) {
-	uint8_t* key = (uint8_t *) str;
+	uint8_t* key = (uint8_t*) str;
 	uint32_t hash = 0;
 	for (size_t i = 0; i < length; ++i) {
 		hash += toupper(key[i++]);
@@ -415,7 +415,7 @@ str_ReadLineFromFileDebug(FILE* fileHandle, const char* file, int lineNumber) {
 str_ReadLineFromFile(FILE* fileHandle) {
 #endif
 	string_buffer* buf = strbuf_Create();
-	
+
 	int ch = fgetc(fileHandle);
 	if (ch == EOF)
 		return NULL;
@@ -446,7 +446,7 @@ str_CanonicalizeLineEndings(string* srcString) {
 	string* destString = str_Alloc(str_Length(srcString) + 1);
 #endif
 	char* src = srcString->data;
-	char* dest = (char* )str_String(destString);
+	char* dest = (char*) str_String(destString);
 	while (src < srcString->data + srcString->length) {
 		if ((src[0] == 10 && src[1] == 13) || (src[0] == 13 && src[1] == 10)) {
 			*dest++ = '\n';
@@ -464,7 +464,6 @@ str_CanonicalizeLineEndings(string* srcString) {
 
 	return destString;
 }
-
 
 #if (defined(__VBCC__) || defined(__GNUC__)) && (!defined(__MINGW32__))
 

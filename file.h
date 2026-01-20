@@ -1,19 +1,19 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef UTIL_FILE_H_INCLUDED_
@@ -21,9 +21,9 @@
 
 #include <stdio.h>
 
-#include "util.h"
 #include "str.h"
 #include "types.h"
+#include "util.h"
 
 /* Open file securely */
 INLINE FILE*
@@ -108,28 +108,30 @@ fcanonicalizePath(string* path);
 extern string*
 freplaceFileComponent(string* fullPath, string* fileName);
 
-
 #ifdef __CALYPSI_TARGET_68000__
 typedef int32_t off_t;
 
-INLINE off_t ftello(FILE* fileHandle) {
+INLINE off_t
+ftello(FILE* fileHandle) {
 	return ftell(fileHandle);
 }
 
-INLINE int fseeko(FILE* fileHandle, off_t offset, int origin) {
+INLINE int
+fseeko(FILE* fileHandle, off_t offset, int origin) {
 	return fseek(fileHandle, offset, origin);
 }
 #endif
 
-
 #if defined(_MSC_VER)
 typedef __int64 off_t;
 
-INLINE off_t ftello(FILE* fileHandle) {
+INLINE off_t
+ftello(FILE* fileHandle) {
 	return _ftelli64(fileHandle);
 }
 
-INLINE int fseeko(FILE* fileHandle, off_t offset, int origin) {
+INLINE int
+fseeko(FILE* fileHandle, off_t offset, int origin) {
 	return _fseeki64(fileHandle, offset, origin);
 }
 #endif

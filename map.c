@@ -1,19 +1,19 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define IN_MAP_C_
@@ -77,7 +77,6 @@ forEachSetElement(set_t* set, intptr_t element, intptr_t data) {
 	keyvalue_t* keyValue = (keyvalue_t*) element;
 	mapData->forEach(map, keyValue->key, keyValue->value, mapData->data);
 }
-
 
 // Public functions
 
@@ -163,7 +162,7 @@ map_HasKey(map_t* map, intptr_t key) {
 
 extern void
 map_ForEachKeyValue(map_t* map, map_foreach_t forEach, intptr_t data) {
-	set_foreach_data_t mapData = { forEach, data };
+	set_foreach_data_t mapData = {forEach, data};
 	set_ForEachElement(map->set, forEachSetElement, (intptr_t) &mapData);
 }
 
@@ -171,7 +170,6 @@ extern ssize_t
 map_Count(map_t* map) {
 	return set_Count(map->set);
 }
-
 
 static bool
 setFindPredicate(set_t* set, intptr_t userData, intptr_t predicateData, intptr_t element) {
@@ -181,13 +179,9 @@ setFindPredicate(set_t* set, intptr_t userData, intptr_t predicateData, intptr_t
 	return data->predicate(map, data->data, kv->key, kv->value);
 }
 
-
 extern bool
 map_Find(map_t* map, map_predicate_t predicate, intptr_t predicateData, intptr_t* key, intptr_t* value) {
-	set_find_data_t data = {
-		predicate,
-		predicateData
-	};
+	set_find_data_t data = {predicate, predicateData};
 
 	if (set_Find(map->set, setFindPredicate, (intptr_t) &data, value)) {
 		keyvalue_t* kv = (keyvalue_t*) value;

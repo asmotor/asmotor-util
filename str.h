@@ -1,19 +1,19 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #if !defined(UTIL_STR_H_INCLUDED_)
@@ -26,8 +26,8 @@
 #include "util.h"
 
 #if defined(_MSC_VER)
-#	pragma warning(push)
-#	pragma warning(disable: 4200)
+#pragma warning(push)
+#pragma warning(disable : 4200)
 #endif
 
 typedef struct {
@@ -37,11 +37,11 @@ typedef struct {
 } string;
 
 #if defined(_MSC_VER)
-#	pragma warning(pop)
+#pragma warning(pop)
 #endif
 
 #if defined(_MSC_VER)
-#   define strncpy(dest, src, len) strncpy_s(dest, len, src, len)
+#define strncpy(dest, src, len) strncpy_s(dest, len, src, len)
 #endif
 
 extern string*
@@ -88,7 +88,7 @@ INLINE string*
 #if defined(_DEBUG)
 str_CreateDebug(const char* data, const char* filename, int lineNumber) {
 	return str_CreateLengthDebug(data, strlen(data), filename, lineNumber);
-#define	str_Create(data) str_CreateDebug(data, __FILE__, __LINE__)
+#define str_Create(data) str_CreateDebug(data, __FILE__, __LINE__)
 #else
 str_Create(const char* data) {
 	return str_CreateLength(data, strlen(data));

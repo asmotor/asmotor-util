@@ -1,27 +1,27 @@
-/*  Copyright 2008-2022 Carsten Elton Sorensen
+/*  Copyright 2008-2026 Carsten Elton Sorensen
 
-	This file is part of ASMotor.
+    This file is part of ASMotor.
 
-	ASMotor is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    ASMotor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-	ASMotor is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    ASMotor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define IN_SET_C_
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include "protos.h"
 #include "str.h"
@@ -48,14 +48,12 @@ typedef struct Set {
 
 #include "set.h"
 
-
 static void
 vec_set_free(intptr_t userData, intptr_t element) {
 	set_Free((set_t*) element);
 }
 
-
-extern set_t* 
+extern set_t*
 set_Create(equals_t equals, hash_t hash, free_t free) {
 	set_t* set = (set_t*) mem_Alloc(sizeof(set_t));
 	set->equals = equals;
@@ -72,12 +70,10 @@ set_Create(equals_t equals, hash_t hash, free_t free) {
 	return set;
 }
 
-
 static uint32_t
 hashElement(set_t* set, intptr_t element) {
 	return set->hash(set->userData, element) % SET_HASH_SIZE;
 }
-
 
 extern bool
 set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* value) {
@@ -94,7 +90,7 @@ set_Find(set_t* set, predicate_t predicate, intptr_t predicateData, intptr_t* va
 	}
 
 	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
-		if (set_Find((set_t *) vec_ElementAt(set->subSets, i), predicate, predicateData, value))
+		if (set_Find((set_t*) vec_ElementAt(set->subSets, i), predicate, predicateData, value))
 			return true;
 	}
 
@@ -117,7 +113,7 @@ internal_Value(set_t* set, uint32_t hash, intptr_t element, intptr_t* value) {
 	}
 
 	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
-		if (internal_Value((set_t *) vec_ElementAt(set->subSets, i), hash, element, value))
+		if (internal_Value((set_t*) vec_ElementAt(set->subSets, i), hash, element, value))
 			return true;
 	}
 
@@ -130,13 +126,11 @@ set_Value(set_t* set, intptr_t element, intptr_t* value) {
 	return internal_Value(set, hash, element, value);
 }
 
-
 extern bool
 set_Exists(set_t* set, intptr_t element) {
 	intptr_t value;
 	return set_Value(set, element, &value);
 }
-
 
 extern void
 set_Insert(set_t* set, intptr_t element) {
@@ -160,11 +154,10 @@ set_Insert(set_t* set, intptr_t element) {
 
 	if (list->elements == NULL || list->allocatedElements == list->totalElements) {
 		list->allocatedElements = list->allocatedElements * 2 + 4;
-		list->elements = mem_Realloc(list->elements, list->allocatedElements * sizeof(void *));
+		list->elements = mem_Realloc(list->elements, list->allocatedElements * sizeof(void*));
 	}
 	list->elements[list->totalElements++] = element;
 }
-
 
 static bool
 internal_Remove(set_t* set, uint32_t hash, intptr_t element) {
@@ -190,13 +183,11 @@ internal_Remove(set_t* set, uint32_t hash, intptr_t element) {
 	return false;
 }
 
-
 extern void
 set_Remove(set_t* set, intptr_t element) {
 	uint32_t hash = hashElement(set, element);
 	internal_Remove(set, hash, element);
 }
-
 
 extern void
 set_ForEachElement(set_t* set, void (*forEach)(set_t* set, intptr_t element, intptr_t data), intptr_t data) {
@@ -218,7 +209,7 @@ set_ForEachElement(set_t* set, void (*forEach)(set_t* set, intptr_t element, int
 
 static void
 increment(set_t* set, intptr_t element, intptr_t data) {
-	*(size_t*)data += 1;
+	*(size_t*) data += 1;
 }
 
 extern ssize_t
@@ -230,7 +221,6 @@ set_Count(set_t* set) {
 
 	return count;
 }
-
 
 extern void
 set_Clear(set_t* set) {
@@ -251,7 +241,6 @@ set_Clear(set_t* set) {
 		list->totalElements = 0;
 	}
 }
-
 
 extern void
 set_Free(set_t* set) {
@@ -284,7 +273,7 @@ internal_ToArray(set_t* set, intptr_t* array, copy_t copy) {
 			}
 		}
 	}
-	
+
 	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		internal_ToArray((set_t*) vec_ElementAt(set->subSets, i), &array[arrayIndex], copy);
 	}
@@ -298,7 +287,7 @@ set_ToArray(set_t* set, copy_t copy, ssize_t* totalElements) {
 	intptr_t* array = mem_Alloc(*totalElements * sizeof(intptr_t));
 
 	internal_ToArray(set, array, copy);
-	
+
 	return array;
 }
 
@@ -310,7 +299,6 @@ set_SetUserData(set_t* set, intptr_t data) {
 	for (uint32_t i = 0; i < vec_Count(set->subSets); ++i) {
 		set_SetUserData((set_t*) vec_ElementAt(set->subSets, i), data);
 	}
-
 }
 
 extern intptr_t
@@ -318,7 +306,6 @@ set_GetUserData(set_t* set) {
 	assert(set != NULL);
 	return set->userData;
 }
-
 
 extern set_t*
 set_CreateSubSet(set_t* set) {
