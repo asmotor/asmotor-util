@@ -89,18 +89,18 @@ mem_AllocImpl(size_t size, const char* filename, int lineNumber) {
 	uint8_t* mem = CheckMemPointer(malloc(size + HEADERSIZE), size, filename, lineNumber);
 	for (size_t i = 0; i < size; ++i) {
 		switch (i & 3) {
-		case 0:
-			mem[i] = 0xDE;
-			break;
-		case 1:
-			mem[i] = 0xAD;
-			break;
-		case 2:
-			mem[i] = 0xBE;
-			break;
-		case 3:
-			mem[i] = 0xEF;
-			break;
+			case 0:
+				mem[i] = 0xDE;
+				break;
+			case 1:
+				mem[i] = 0xAD;
+				break;
+			case 2:
+				mem[i] = 0xBE;
+				break;
+			case 3:
+				mem[i] = 0xEF;
+				break;
 		}
 	}
 	return mem;
