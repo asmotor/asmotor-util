@@ -232,34 +232,20 @@ str_Equal(const string* str1, const string* str2) {
 
 int
 str_Compare(const string* str1, const string* str2) {
-	const char* string1 = str_String(str1);
-	const char* string2 = str_String(str2);
-
-	while (*string1 && *string2) {
-		uint8_t l1 = (uint8_t) *string1++;
-		uint8_t l2 = (uint8_t) *string2++;
-
-		if (l1 != l2)
-			return l1 - l2;
-	}
-
-	return *string1 - *string2;
+	return strcmp(str_String(str1), str_String(str2));
 }
 
 bool
 str_EqualConst(const string* str1, const char* str2) {
+	if (!str1 || !str2)
+		return false;
+
 	ssize_t length1 = str_Length(str1);
-	char ch2;
-
-	ch2 = *str2++;
-	for (ssize_t i = 0; i < length1; ++i) {
-		if (ch2 == 0 || str_CharAt(str1, i) != ch2)
-			return false;
-
-		ch2 = *str2++;
+	if (strlen(str2) != (size_t) length1) {
+		return false;
 	}
 
-	return ch2 == 0;
+	return memcmp(str_String(str1), str2, length1) == 0;
 }
 
 string*
