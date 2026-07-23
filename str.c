@@ -137,7 +137,7 @@ str_CreateFormat(const char* format, ...) {
 
 string*
 str_Empty(void) {
-	return str_Copy((string*) &g_emptyString);
+	return _str_Ref((string*) &g_emptyString);
 }
 
 void
@@ -346,7 +346,7 @@ str_Align(string* str, int32_t alignment) {
 		return aligned;
 	}
 
-	return str_Copy(str);
+	return _str_Ref(str);
 }
 
 extern uint32_t

@@ -101,6 +101,12 @@ str_Empty(void);
 extern void
 str_Free(string* str);
 
+INLINE void
+str_Clear(string** dest) {
+	str_Free(*dest);
+	*dest = NULL;
+}
+
 extern string*
 #if defined(_DEBUG)
 str_ConcatDebug(const string* str1, const string* str2, const char* file, int lineNumber);
@@ -176,7 +182,7 @@ str_Count(const string* str, char ch) {
 }
 
 INLINE string*
-str_Copy(const string* str) {
+_str_Ref(const string* str) {
 	if (str != NULL)
 		++((string*) str)->refCount;
 	return (string*) str;
@@ -204,7 +210,7 @@ str_CharAt(const string* str, ssize_t index) {
 INLINE void
 str_Assign(string** dest, const string* src) {
 	str_Free(*dest);
-	*dest = str_Copy(src);
+	*dest = _str_Ref(src);
 }
 
 INLINE void

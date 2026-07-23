@@ -39,7 +39,8 @@ stream_t*
 stream_CreateFromString(const string* str) {
 	stream_t* stream = mem_Alloc(sizeof(stream_t));
 	stream->file = NULL;
-	stream->buffer = str_Copy(str);
+	stream->buffer = NULL;
+	str_Assign(&stream->buffer, str);
 	stream->position = 0;
 
 	return stream;

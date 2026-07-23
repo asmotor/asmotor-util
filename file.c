@@ -179,13 +179,13 @@ fgetcwd(void) {
 
 string*
 #if defined(_DEBUG)
-fcanonicalizePathDebug(string* path, const char* filename, int lineNumber) {
-	path = str_ReplaceDebug(path, PATH_REPLACE, PATH_SEPARATOR, filename, lineNumber);
+fcanonicalizePathDebug(const string* path, const char* filename, int lineNumber) {
+	string* pathCopy = str_ReplaceDebug(path, PATH_REPLACE, PATH_SEPARATOR, filename, lineNumber);
 #else
-fcanonicalizePath(string* path) {
-	path = str_Replace(path, PATH_REPLACE, PATH_SEPARATOR);
+fcanonicalizePath(const string* path) {
+	string* pathCopy = str_Replace(path, PATH_REPLACE, PATH_SEPARATOR);
 #endif
-	const char* p = str_String(path);
+	const char* p = str_String(pathCopy);
 	string_buffer* r = strbuf_Create();
 
 	if (*p == PATH_SEPARATOR) {
@@ -248,18 +248,22 @@ fcanonicalizePath(string* path) {
 	return result;
 }
 
-string*
-freplaceFileComponent(string* fullPath, string* fileName) {
-	if (fullPath == NULL)
-		return str_Copy(fileName);
+void
+freplaceFileComponent(string** dest, const string* fullPath, const string* fileName) {
+	if (fullPath == NULL) {
+		str_Assign(dest, fileName);
+		return;
+	}
 
 	const char* lastSlash = str_String(fullPath) + str_Length(fullPath) - 1;
 
 	while (lastSlash > str_String(fullPath) && *lastSlash != '/' && *lastSlash != '\\')
 		--lastSlash;
 
-	if (lastSlash == str_String(fullPath))
-		return str_Copy(fileName);
+	if (lastSlash == str_String(fullPath)) {
+		str_Assign(dest, fileName);
+		return;
+	}
 
 	string* basePath = str_Slice(fullPath, 0, lastSlash + 1 - str_String(fullPath));
 	string* newFullPath = str_Concat(basePath, fileName);
@@ -267,5 +271,5 @@ freplaceFileComponent(string* fullPath, string* fileName) {
 
 	string* fixedPath = fcanonicalizePath(newFullPath);
 	str_Free(newFullPath);
-	return fixedPath;
+	str_Move(dest, &fixedPath);
 }

@@ -35,7 +35,7 @@ stringFree(intptr_t userData, intptr_t element) {
 
 static intptr_t
 stringCopy(intptr_t userData, intptr_t element) {
-	return (intptr_t) str_Copy((string*) element);
+	return (intptr_t) _str_Ref((string*) element);
 }
 
 // String set functions

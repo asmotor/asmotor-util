@@ -98,15 +98,15 @@ ffill(uint8_t value, size_t count, FILE* fileHandle);
 
 extern string*
 #if defined(_DEBUG)
-fcanonicalizePathDebug(string* path, const char* filename, int lineNumber);
+fcanonicalizePathDebug(const string* path, const char* filename, int lineNumber);
 #define fcanonicalizePath(path) fcanonicalizePathDebug(path, __FILE__, __LINE__)
 #else
-fcanonicalizePath(string* path);
+fcanonicalizePath(const string* path);
 #endif
 
-/* Replace file name component from path */
-extern string*
-freplaceFileComponent(string* fullPath, string* fileName);
+/* Replace file name component from path. Writes result to *dest. */
+extern void
+freplaceFileComponent(string** dest, const string* fullPath, const string* fileName);
 
 #ifdef __CALYPSI_TARGET_68000__
 typedef int32_t off_t;

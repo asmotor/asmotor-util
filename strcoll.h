@@ -37,7 +37,7 @@ strset_Exists(set_t* set, const string* element) {
 
 INLINE void
 strset_Insert(set_t* set, string* element) {
-	set_Insert(set, (intptr_t) str_Copy(element));
+	set_Insert(set, (intptr_t) _str_Ref(element));
 }
 
 INLINE void
@@ -62,17 +62,17 @@ strvec_Copy(vec_t* collection);
 
 INLINE void
 strvec_PushBack(vec_t* vec, string* element) {
-	vec_PushBack(vec, (intptr_t) str_Copy(element));
+	vec_PushBack(vec, (intptr_t) _str_Ref(element));
 }
 
 INLINE string*
 strvec_StringAt(vec_t* vec, size_t index) {
-	return str_Copy((string*) vec_ElementAt(vec, index));
+	return _str_Ref((string*) vec_ElementAt(vec, index));
 }
 
 INLINE void
 strvec_SetAt(vec_t* vec, size_t index, string* element) {
-	vec_SetAt(vec, index, (intptr_t) str_Copy(element));
+	vec_SetAt(vec, index, (intptr_t) _str_Ref(element));
 }
 
 #define strvec_Freeze   vec_Freeze
@@ -114,7 +114,7 @@ strmap_Insert(strmap_t* map, const string* key, intptr_t value) {
 	if (map_Value(map, (intptr_t) key, &v2) && value == v2)
 		return;
 
-	map_Insert(map, (intptr_t) str_Copy(key), value);
+	map_Insert(map, (intptr_t) _str_Ref(key), value);
 }
 
 INLINE void
