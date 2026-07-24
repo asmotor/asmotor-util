@@ -36,7 +36,7 @@ strset_Exists(set_t* set, const string* element) {
 }
 
 INLINE void
-strset_Insert(set_t* set, string* element) {
+strset_Insert(set_t* set, const string* element) {
 	set_Insert(set, (intptr_t) _str_Ref(element));
 }
 
@@ -61,7 +61,7 @@ extern vec_t*
 strvec_Copy(vec_t* collection);
 
 INLINE void
-strvec_PushBack(vec_t* vec, string* element) {
+strvec_PushBack(vec_t* vec, const string* element) {
 	vec_PushBack(vec, (intptr_t) _str_Ref(element));
 }
 
@@ -71,7 +71,7 @@ strvec_StringAt(vec_t* vec, size_t index) {
 }
 
 INLINE void
-strvec_SetAt(vec_t* vec, size_t index, string* element) {
+strvec_SetAt(vec_t* vec, size_t index, const string* element) {
 	vec_SetAt(vec, index, (intptr_t) _str_Ref(element));
 }
 
