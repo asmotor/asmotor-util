@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_AMITIME_INCLUDED_
-#define UTIL_AMITIME_INCLUDED_
+#pragma once
 
 #if defined(__VBCC__)
 #define __CLOCK_T 1
@@ -40,5 +39,3 @@ time_GetMicroSeconds(void);
 #include <time.h>
 
 #endif /* __VBCC__ */
-
-#endif /* UTIL_AMITIME_INCLUDED_ */

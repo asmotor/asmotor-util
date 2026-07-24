@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_FILE_H_INCLUDED_
-#define UTIL_FILE_H_INCLUDED_
+#pragma once
 
 #include <stdio.h>
 
@@ -135,5 +134,3 @@ fseeko(FILE* fileHandle, off_t offset, int origin) {
 	return _fseeki64(fileHandle, offset, origin);
 }
 #endif
-
-#endif /* UTIL_FILE_H_INCLUDED_ */

@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_TYPES_H_INCLUDED_
-#define UTIL_TYPES_H_INCLUDED_
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -30,5 +29,3 @@
 #ifdef __CALYPSI_TARGET_68000__
 typedef int32_t ssize_t;
 #endif
-
-#endif /* UTIL_TYPES_H_INCLUDED_ */

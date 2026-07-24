@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_STRBUF_H_INCLUDED_
-#define UTIL_STRBUF_H_INCLUDED_
+#pragma once
 
 #include <stdarg.h>
 #include <string.h>
@@ -89,5 +88,3 @@ strbuf_AppendString(string_buffer* buffer, const string* str) {
 
 	strbuf_AppendChars(buffer, str_String(str), str_Length(str));
 }
-
-#endif /* UTIL_STRBUF_H_INCLUDED_ */

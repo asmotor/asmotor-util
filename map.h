@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_MAP_H_INCLUDED_)
-#define UTIL_MAP_H_INCLUDED_
+#pragma once
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -70,5 +69,3 @@ map_Count(map_t* map);
 
 extern bool
 map_Find(map_t* map, map_predicate_t predicate, intptr_t predicateData, intptr_t* key, intptr_t* value);
-
-#endif

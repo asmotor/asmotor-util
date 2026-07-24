@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_ASMOTOR_H_INCLUDED_
-#define UTIL_ASMOTOR_H_INCLUDED_
+#pragma once
 
 #include "types.h"
 #include <stdio.h>
@@ -86,5 +85,3 @@ _stricmp(const char* string1, const char* string2);
 	        __LINE__, s),                \
 	    exit(EXIT_FAILURE), return NULL
 #endif
-
-#endif /* UTIL_ASMOTOR_H_INCLUDED_ */

@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_LISTS_H_INCLUDED_
-#define UTIL_LISTS_H_INCLUDED_
+#pragma once
 
 #include "types.h"
 
@@ -66,5 +65,3 @@
 			list_GetPrev(list_GetNext(where)) = (e); \
 		list_GetNext(where) = (e);                   \
 	} while (0)
-
-#endif /* UTIL_LISTS_H_INCLUDED_ */

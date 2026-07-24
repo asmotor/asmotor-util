@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_STR_H_INCLUDED_)
-#define UTIL_STR_H_INCLUDED_
+#pragma once
 
 #include <assert.h>
 #include <stdbool.h>
@@ -29,6 +28,32 @@
 #pragma warning(push)
 #pragma warning(disable : 4200)
 #endif
+
+/*
+ * STRING OWNERSHIP CONTRACT
+ *
+ * Every string* has exactly one owner responsible for str_Free().
+ * Strings are immutable and reference-counted. str_Copy is O(1) (increments ref count),
+ * str_Free decrements ref count and frees when it reaches zero.
+ *
+ * OWNERSHIP TRANSFER:
+ *   - str_Assign(&dest, src) — copy (increments ref count), frees old *dest.
+ *     Use when caller keeps src.
+ *   - str_Move(&dest, &src) — transfer ownership, sets src to NULL.
+ *     Use when src won't be used again.
+ *   - str_Clear(&dest) — frees *dest and sets to NULL.
+ *
+ * FUNCTION PARAMETER CONVENTIONS:
+ *   - const string* — function copies internally (str_Assign), caller retains ownership.
+ *   - string** — function takes ownership via str_Move, caller gives up string.
+ *   - Functions with "Owned" suffix (e.g. sym_CreateEqusOwned) use string** for transfer.
+ *
+ * PRACTICAL RULES:
+ *   - Functions producing a string* result take string** dest as first parameter.
+ *   - Never assign directly to *dest — always use str_Move, str_Assign, or str_Clear.
+ *   - Struct fields: initialize to NULL before using str_Assign/str_Move, free in destructor.
+ *   - To get an owned copy of a borrowed string, use str_Assign.
+ */
 
 typedef struct {
 	uint32_t refCount;
@@ -282,5 +307,3 @@ decimalToInt(const char* text, int32_t* result) {
 
 #define STR_ASSIGN(p, str) str_Assign(&(p), (str))
 #define STR_MOVE(p, str)   str_Move(&(p), &(str))
-
-#endif

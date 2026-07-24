@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_MEM_H_INCLUDED_
-#define UTIL_MEM_H_INCLUDED_
+#pragma once
 
 #include <stdlib.h>
 #include <string.h>
@@ -101,5 +100,3 @@ mem_Free(void* memory);
 
 extern void
 mem_ShowLeaks(void);
-
-#endif

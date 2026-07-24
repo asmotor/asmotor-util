@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_FMATH_H_INCLUDED_
-#define UTIL_FMATH_H_INCLUDED_
+#pragma once
 
 #include "types.h"
 
@@ -74,5 +73,3 @@ asr(int32_t lhs, int32_t rhs);
 /* Determine if value is a power of two (the value has exactly one bit set.) */
 bool
 isPowerOfTwo(int32_t d);
-
-#endif /* UTIL_FMATH_H_INCLUDED_ */

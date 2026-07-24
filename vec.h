@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_VEC_H_INCLUDED_)
-#define UTIL_VEC_H_INCLUDED_
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -82,5 +81,3 @@ vec_Frozen(vec_t* vec);
 
 extern vec_t*
 vec_Copy(vec_t* vec, copy_t copy);
-
-#endif

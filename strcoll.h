@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_STRCOLL_H_INCLUDED_)
-#define UTIL_STRCOLL_H_INCLUDED_
+#pragma once
 
 // clang-format off
 #include "set.h"
@@ -128,5 +127,3 @@ strmap_HasKey(strmap_t* map, const string* key) {
 }
 
 #define strmap_Free map_Free
-
-#endif

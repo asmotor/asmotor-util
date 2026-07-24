@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_PROTOS_H_INCLUDED_)
-#define UTIL_PROTOS_H_INCLUDED_
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -26,5 +25,3 @@ typedef intptr_t (*copy_t)(intptr_t userData, intptr_t element);
 typedef bool (*equals_t)(intptr_t userData, intptr_t element1, intptr_t element2);
 typedef uint32_t (*hash_t)(intptr_t userData, intptr_t element);
 typedef void (*free_t)(intptr_t userData, intptr_t element);
-
-#endif

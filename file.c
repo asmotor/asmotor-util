@@ -242,10 +242,11 @@ fcanonicalizePath(const string* path) {
 		}
 	}
 
-	string* result = strbuf_String(r);
-	strbuf_Free(r);
+    string* result = strbuf_String(r);
+    strbuf_Free(r);
+    str_Free(pathCopy);
 
-	return result;
+    return result;
 }
 
 void

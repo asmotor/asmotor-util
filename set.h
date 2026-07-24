@@ -16,8 +16,7 @@
     along with ASMotor.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if !defined(UTIL_SET_H_INCLUDED_)
-#define UTIL_SET_H_INCLUDED_
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -74,5 +73,3 @@ set_GetUserData(set_t* set);
 
 extern set_t*
 set_CreateSubSet(set_t* set);
-
-#endif
