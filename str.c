@@ -235,7 +235,7 @@ str_Compare(const string* str1, const string* str2) {
 	return strcmp(str_String(str1), str_String(str2));
 }
 
-bool
+	bool
 str_EqualConst(const string* str1, const char* str2) {
 	if (!str1 || !str2)
 		return false;
@@ -246,6 +246,24 @@ str_EqualConst(const string* str1, const char* str2) {
 	}
 
 	return memcmp(str_String(str1), str2, length1) == 0;
+}
+
+bool
+str_EndsWith(const string* str, const char* suffix) {
+	if (!str || !suffix)
+		return false;
+	size_t slen = str_Length(str);
+	size_t suffixlen = strlen(suffix);
+	if (slen < suffixlen)
+		return false;
+	return strcmp(str_String(str) + slen - suffixlen, suffix) == 0;
+}
+
+bool
+str_StartsWith(const string* str, const char* prefix) {
+	if (!str || !prefix)
+		return false;
+	return strncmp(str_String(str), prefix, strlen(prefix)) == 0;
 }
 
 string*

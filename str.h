@@ -224,6 +224,12 @@ str_String(const string* str) {
 	return str->data;
 }
 
+extern bool
+str_EndsWith(const string* str, const char* suffix);
+
+extern bool
+str_StartsWith(const string* str, const char* prefix);
+
 INLINE char
 str_CharAt(const string* str, ssize_t index) {
 	assert(str != NULL);
