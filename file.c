@@ -179,10 +179,10 @@ fgetcwd(void) {
 
 string*
 #if defined(_DEBUG)
-fcanonicalizePathDebug(const string* path, const char* filename, int lineNumber) {
+fnormalizePathDebug(const string* path, const char* filename, int lineNumber) {
 	string* pathCopy = str_ReplaceDebug(path, PATH_REPLACE, PATH_SEPARATOR, filename, lineNumber);
 #else
-fcanonicalizePath(const string* path) {
+fnormalizePath(const string* path) {
 	string* pathCopy = str_Replace(path, PATH_REPLACE, PATH_SEPARATOR);
 #endif
 	const char* p = str_String(pathCopy);
@@ -206,30 +206,26 @@ fcanonicalizePath(const string* path) {
 			// Ignore "."
 			p = e + 1;
 		} else if (e - p == 2 && strncmp(p, "..", 2) == 0) {
-			if (strbuf_Size(r) == 0) {
-				// Trying to go above root
-				string* cwd = fgetcwd();
-				if (cwd != NULL) {
-					char* rend = strrchr(str_String(cwd), PATH_SEPARATOR);
-					if (rend != NULL) {
-						strbuf_AppendChars(r, str_String(cwd), rend - str_String(cwd) + 1);
-					}
-				}
+			size_t n = strbuf_Size(r);
+			int trailingDotDot = (n >= 3 &&
+			    strbuf_Data(r)[n - 3] == '.' &&
+			    strbuf_Data(r)[n - 2] == '.' &&
+			    strbuf_Data(r)[n - 1] == PATH_SEPARATOR);
+			if (n == 0 || trailingDotDot) {
+				// No preceding component to pop (start of a relative
+				// path, or the previous component is itself an
+				// unresolved ".."); keep the ".." so the path stays
+				// relative.
+				strbuf_AppendChars(r, p, e - p + 1);
 				p = e + 1;
-				continue;
-			}
-			// Remove last component from r
-			if (strbuf_Size(r) == 1 && strbuf_Data(r)[0] == PATH_SEPARATOR) {
-				// Already at root, ignore
+			} else if (n == 1 && strbuf_Data(r)[0] == PATH_SEPARATOR) {
+				// Absolute path already at root; cannot go above it.
 				p = e + 1;
-				continue;
-			}
-			if (strbuf_Size(r) > 0) {
-				char* rend = strbuf_Data(r) + strbuf_Size(r) - 1;
-
+			} else {
+				// Remove last component from r
+				char* rend = strbuf_Data(r) + n - 1;
 				while (rend > strbuf_Data(r) && *(rend - 1) != PATH_SEPARATOR)
 					--rend;
-
 				strbuf_Truncate(r, (size_t) (rend - strbuf_Data(r)));
 				p = e + 1;
 			}
@@ -247,6 +243,30 @@ fcanonicalizePath(const string* path) {
     str_Free(pathCopy);
 
     return result;
+}
+
+string*
+fabsolutePath(const string* path) {
+	string* result = fnormalizePath(path);
+	if (str_Length(result) > 0 && str_CharAt(result, 0) != PATH_SEPARATOR) {
+		string* cwd = fgetcwd();
+		if (cwd != NULL) {
+			const char* cwdEnd = str_String(cwd) + str_Length(cwd) - 1;
+			string* slash = str_Create("/");
+			string* prefix = (*cwdEnd == PATH_SEPARATOR)
+			    ? str_Create(str_String(cwd))
+			    : str_Concat(cwd, slash);
+			str_Free(slash);
+			string* joined = str_Concat(prefix, result);
+			str_Free(result);
+			str_Free(prefix);
+			// Re-normalize to resolve any leading ".." against the cwd.
+			result = fnormalizePath(joined);
+			str_Free(joined);
+			str_Free(cwd);
+		}
+	}
+	return result;
 }
 
 void
@@ -270,7 +290,7 @@ freplaceFileComponent(string** dest, const string* fullPath, const string* fileN
 	string* newFullPath = str_Concat(basePath, fileName);
 	str_Free(basePath);
 
-	string* fixedPath = fcanonicalizePath(newFullPath);
+	string* fixedPath = fnormalizePath(newFullPath);
 	str_Free(newFullPath);
 	str_Move(dest, &fixedPath);
 }

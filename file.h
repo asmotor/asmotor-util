@@ -47,6 +47,10 @@ fexists(const char* filename);
 extern size_t
 fsize(FILE* fileHandle);
 
+/* Return the current working directory as a string, or NULL on failure */
+extern string*
+fgetcwd(void);
+
 /* Write a little endian 32 bit value to a file */
 extern void
 fputll(uint32_t value, FILE* fileHandle);
@@ -95,13 +99,20 @@ fputsz(const char* str, FILE* fileHandle);
 extern void
 ffill(uint8_t value, size_t count, FILE* fileHandle);
 
+/* Normalize a path: collapse "." / ".." components and unify separators.
+ * Relative paths stay relative (no filesystem access). */
 extern string*
 #if defined(_DEBUG)
-fcanonicalizePathDebug(const string* path, const char* filename, int lineNumber);
-#define fcanonicalizePath(path) fcanonicalizePathDebug(path, __FILE__, __LINE__)
+fnormalizePathDebug(const string* path, const char* filename, int lineNumber);
+#define fnormalizePath(path) fnormalizePathDebug(path, __FILE__, __LINE__)
 #else
-fcanonicalizePath(const string* path);
+fnormalizePath(const string* path);
 #endif
+
+/* Resolve a path to an absolute form (cwd prefix if relative). Used as a stable
+ * identity key for deduplication. */
+extern string*
+fabsolutePath(const string* path);
 
 /* Replace file name component from path. Writes result to *dest. */
 extern void
